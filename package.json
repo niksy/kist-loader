@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/niksy/loaders/issues"
   },
-  "homepage": "https://github.com/niksy/loaders"
+  "homepage": "https://github.com/niksy/loaders",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-bump": "0.0.13",
+    "grunt-jscs-checker": "~0.3.2",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
 }
