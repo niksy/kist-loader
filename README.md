@@ -30,6 +30,10 @@ $.multiGetScript( [ 'dep1.js', 'dep2.js' ] ).done(function ( data ) {
 $.multiCachedGetScript( [ 'dep1.js', 'dep2.js' ] ).done(function ( data ) {
 	console.info( 'Loaded!' );
 });
+
+$.asyncLoad('//connect.facebook.net/en_US/all.js#xfbml=1');
+$.asyncLoad('//platform.twitter.com/widgets.js');
+$.asyncLoad('https://apis.google.com/js/platform.js','gplusSdk');
 ```
 
 ## Description
@@ -57,7 +61,16 @@ Extends `$.getScript` with ability to provide array of assets to load.
 Similar to `$.multiGetScript`, but caches requests so it won’t fire again for
 current session.
 
+#### `$.asyncLoad`
+
+Asynchronous load of JS content (e.g. third-party components such as Facebook SDK).
+
+Automatically resolves to default ID for known platforms, otherwise option is
+available if you want to specify custom ID. Setting ID prevents multiple downloads
+of the script.
+
 ## Acknowledgments
 
 * [jQuery documentation on Deferreds](http://learn.jquery.com/code-organization/deferreds/examples/#generic-asynchronous-cache)
 * [Google Maps loader starting code](https://gist.github.com/GFoley83/5953448)
+* [Async load](https://gist.github.com/necolas/1025811)

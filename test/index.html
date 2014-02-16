@@ -38,12 +38,20 @@
 		<textarea id="multiCachedGetScript-02-test" readonly="readonly" cols="30" rows="10"></textarea>
 	</div>
 
+	<div>
+		<h2><code>$.asyncLoad</code></h2>
+		<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		<a href="https://twitter.com/share" class="twitter-share-button" data-via="niksy">Tweet</a>
+		<div class="g-plusone" data-annotation="inline" data-width="300"></div>
+	</div>
+
 	<script src="../bower_components/jquery/jquery.min.js"></script>
 	<script src="../src/util/createCache.js"></script>
 	<script src="../src/cachedGetScript.js"></script>
 	<script src="../src/loadImage.js"></script>
 	<script src="../src/gmapsLoader.js"></script>
 	<script src="../src/multiGetScript.js"></script>
+	<script src="../src/asyncLoad.js"></script>
 	<script>
 
 		$(document).on('ready', function () {
@@ -115,6 +123,13 @@
 				$('#multiCachedGetScript-02-test').val( data[1][0] );
 				console.info( '$.multiCachedGetScript done!' );
 			});
+
+			/**
+			 * Test $.asyncLoad
+			 */
+			$.asyncLoad('//connect.facebook.net/en_US/all.js#xfbml=1');
+			$.asyncLoad('//platform.twitter.com/widgets.js');
+			$.asyncLoad('https://apis.google.com/js/platform.js','gplusSdk');
 
 		});
 
