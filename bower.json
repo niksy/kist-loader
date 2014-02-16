@@ -1,6 +1,6 @@
 {
   "name": "loaders",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
   "homepage": "https://github.com/niksy/loaders",
   "keywords": [
