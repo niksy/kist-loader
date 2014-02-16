@@ -97,50 +97,6 @@
 
     $.gmapsApiLoader = loadGoogleMaps;
 
-
-    /**
-     * Google Maps plugin loader
-     *
-     * @param  {Object} $
-     *
-     * @return {Promise}
-     */
-    $.gmapsPluginLoader = (function ($) {
-
-        var promise;
-        var deferreds = [];
-        var ajaxCall = function ( pComponent ) {
-            return $.ajax({ url: pComponent, dataType: 'script' });
-        };
-
-        return function ( arrComponents ) {
-
-            if (promise) {
-                return promise;
-            }
-
-            var deferred = $.Deferred();
-
-            $.each( arrComponents, function(index, value){
-                deferreds.push( ajaxCall(value) );
-            });
-
-            $.when
-                .apply(window, deferreds)
-                .done(function(){
-                    deferred.resolve();
-                })
-                .fail(function(){
-                    deferred.reject();
-                });
-
-            promise = deferred.promise();
-            return promise;
-
-        };
-
-    })($);
-
     /**
      * Google Maps loader, including API and plugins.
      *
@@ -176,7 +132,7 @@
                 if ( 'plugins' in pParams ) {
 
                     $.when(
-                        $.gmapsPluginLoader( pParams.plugins )
+                        $.multiCachedGetScript( pParams.plugins )
                     )
                     .done(function(){
                         deferred.resolve();
