@@ -63,7 +63,7 @@
 			 */
 			$.gmapsLoader({
 				// apiKey: 'API KEY',
-				// plugins: [],
+				plugins: [],
 				language: 'en',
 				libraries: 'geometry'
 			})
@@ -78,12 +78,16 @@
 			});
 
 			/**
-			 * Test $.multiGetScript
+			 * Test $.multiGetScript and $.multiCachedGetScript
 			 */
-			var multiGetScriptDeps = [ 'http://documentcloud.github.com/backbone/backbone-min.js', 'http://documentcloud.github.com/underscore/underscore-min.js' ];
+			multiGetScriptDeps = [ '../src/util/createCache.js', 'http://documentcloud.github.com/underscore/underscore-min.js' ];
 
 			$.multiGetScript( multiGetScriptDeps ).done(function () {
 				console.info( '$.multiGetScript done!' );
+			});
+
+			$.multiCachedGetScript( multiGetScriptDeps ).done(function () {
+				console.info( '$.multiCachedGetScript done!' );
 			});
 
 		});

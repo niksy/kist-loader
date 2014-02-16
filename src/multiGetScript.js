@@ -1,26 +1,30 @@
 ;(function ( $, window, document, undefined ) {
 
-	var getScript = $.getScript;
+	var resolver = function ( getScriptCall, arrComponents ) {
 
-	$.multiGetScript = function ( resources, callback ) {
-
-		var length = resources.length;
-		var handler = function() { counter++; };
+		var promise;
 		var deferreds = [];
-		var counter = 0;
-		var idx = 0;
+		var deferred = $.Deferred();
 
-		for ( ; idx < length; idx++ ) {
-			deferreds.push(
-				getScript( resources[ idx ], handler )
-			);
-		}
-
-		$.when.apply( null, deferreds ).then(function() {
-			if ( callback ) {
-				callback();
-			}
+		$.each( arrComponents, function(index, value){
+			deferreds.push( $[ getScriptCall ](value) );
 		});
+
+		$.when
+			.apply(window, deferreds)
+			.done(function(){
+				deferred.resolve();
+			})
+			.fail(function(){
+				deferred.reject();
+			});
+
+		promise = deferred.promise();
+		return promise;
+
 	};
+
+	$.multiGetScript       = $.proxy( resolver, $, 'getScript' );
+	$.multiCachedGetScript = $.proxy( resolver, $, 'cachedGetScript' );
 
 })( jQuery, window, document );
