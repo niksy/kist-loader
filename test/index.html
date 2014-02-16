@@ -3,8 +3,91 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Loaders</title>
+	<style>
+		#gmapsLoader-test {
+			width:500px; height:500px;
+		}
+	</style>
 </head>
 <body>
+
+	<div>
+		<h2><code>$.cachedGetScript</code></h2>
+		<textarea id="cachedGetScript-test" readonly="readonly" cols="30" rows="10"></textarea>
+	</div>
+
+	<div>
+		<h2><code>$.loadImage</code></h2>
+		<img id="loadImage-test" src="" alt="" />
+	</div>
+
+	<div>
+		<h2><code>$.gmapsLoader</code></h2>
+		<div id="gmapsLoader-test"></div>
+	</div>
+
+	<div>
+		<h2><code>$.multiGetScript</code></h2>
+		<textarea id="multiGetScript-01-test" readonly="readonly" cols="30" rows="10"></textarea>
+		<textarea id="multiGetScript-02-test" readonly="readonly" cols="30" rows="10"></textarea>
+	</div>
+
 	<script src="../bower_components/jquery/jquery.min.js"></script>
+	<script src="../src/util/createCache.js"></script>
+	<script src="../src/cachedGetScript.js"></script>
+	<script src="../src/loadImage.js"></script>
+	<script src="../src/gmapsLoader.js"></script>
+	<script src="../src/multiGetScript.js"></script>
+	<script>
+
+		$(document).on('ready', function () {
+
+			/**
+			 * Test $.cachedGetScript
+			 */
+			$.cachedGetScript('../src/cachedGetScript.js').done(function ( data ) {
+				$('#cachedGetScript-test').val( data );
+				console.info( '$.cachedGetScript done!' );
+			});
+
+			/**
+			 * Test $.loadImage
+			 */
+			$.loadImage('http://placekitten.com/500/500').done(function () {
+				$('#loadImage-test').attr('src', 'http://placekitten.com/500/500');
+				console.info( '$.loadImage done!' );
+			});
+
+			/**
+			 * Test $.gmapsLoader
+			 */
+			$.gmapsLoader({
+				// apiKey: 'API KEY',
+				// plugins: [],
+				language: 'en',
+				libraries: 'geometry'
+			})
+			.done(function () {
+
+				var map = new google.maps.Map($('#gmapsLoader-test')[0],{
+					zoom: 8,
+					center: new google.maps.LatLng(-34.397, 150.644)
+				});
+				console.info( '$.gmapsLoader done!' );
+
+			});
+
+			/**
+			 * Test $.multiGetScript
+			 */
+			var multiGetScriptDeps = [ 'http://documentcloud.github.com/backbone/backbone-min.js', 'http://documentcloud.github.com/underscore/underscore-min.js' ];
+
+			$.multiGetScript( multiGetScriptDeps ).done(function () {
+				console.info( '$.multiGetScript done!' );
+			});
+
+		});
+
+	</script>
 </body>
 </html>
