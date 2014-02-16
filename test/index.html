@@ -32,6 +32,12 @@
 		<textarea id="multiGetScript-02-test" readonly="readonly" cols="30" rows="10"></textarea>
 	</div>
 
+	<div>
+		<h2><code>$.multiCachedGetScript</code></h2>
+		<textarea id="multiCachedGetScript-01-test" readonly="readonly" cols="30" rows="10"></textarea>
+		<textarea id="multiCachedGetScript-02-test" readonly="readonly" cols="30" rows="10"></textarea>
+	</div>
+
 	<script src="../bower_components/jquery/jquery.min.js"></script>
 	<script src="../src/util/createCache.js"></script>
 	<script src="../src/cachedGetScript.js"></script>
@@ -80,13 +86,17 @@
 			/**
 			 * Test $.multiGetScript and $.multiCachedGetScript
 			 */
-			multiGetScriptDeps = [ '../src/util/createCache.js', 'http://documentcloud.github.com/underscore/underscore-min.js' ];
+			var multiGetScriptDeps = [ '../src/util/createCache.js', '../src/loadImage.js' ];
 
-			$.multiGetScript( multiGetScriptDeps ).done(function () {
+			$.multiGetScript( multiGetScriptDeps ).done(function ( data ) {
+				$('#multiGetScript-01-test').val( data[0][0] );
+				$('#multiGetScript-02-test').val( data[1][0] );
 				console.info( '$.multiGetScript done!' );
 			});
 
-			$.multiCachedGetScript( multiGetScriptDeps ).done(function () {
+			$.multiCachedGetScript( multiGetScriptDeps ).done(function ( data ) {
+				$('#multiCachedGetScript-01-test').val( data[0][0] );
+				$('#multiCachedGetScript-02-test').val( data[1][0] );
 				console.info( '$.multiCachedGetScript done!' );
 			});
 

@@ -13,10 +13,10 @@
 		$.when
 			.apply(window, deferreds)
 			.done(function(){
-				deferred.resolve();
+				deferred.resolve( arguments );
 			})
 			.fail(function(){
-				deferred.reject();
+				deferred.reject( 'Assets could not be loaded.' );
 			});
 
 		promise = deferred.promise();
