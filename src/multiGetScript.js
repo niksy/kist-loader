@@ -1,15 +1,14 @@
-(function( jQuery ) {
+;(function ( $, window, document, undefined ) {
 
-	var getScript = jQuery.getScript;
+	var getScript = $.getScript;
 
-	jQuery.getScript = function( resources, callback ) {
+	$.multiGetScript = function ( resources, callback ) {
 
-		var // reference declaration & localization
-		length = resources.length, 
-		handler = function() { counter++; },
-		deferreds = [],
-		counter = 0, 
-		idx = 0;
+		var length = resources.length;
+		var handler = function() { counter++; };
+		var deferreds = [];
+		var counter = 0;
+		var idx = 0;
 
 		for ( ; idx < length; idx++ ) {
 			deferreds.push(
@@ -17,18 +16,11 @@
 			);
 		}
 
-		jQuery.when.apply( null, deferreds ).then(function() {
-			callback && callback();
+		$.when.apply( null, deferreds ).then(function() {
+			if ( callback ) {
+				callback();
+			}
 		});
 	};
 
-})( jQuery );
-
-var deps = [ "http://documentcloud.github.com/backbone/backbone-min.js", 
-             "http://documentcloud.github.com/underscore/underscore-min.js" ];
-
-
-jQuery.getScript( deps, function( jqXhr ) {
-	console.log( jqXhr );
-	console.log( [ _, Backbone ] );
-});
+})( jQuery, window, document );
