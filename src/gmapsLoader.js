@@ -141,4 +141,66 @@
 
     })($);
 
+    /**
+     * Google Maps loader, including API and plugins.
+     *
+     * @param  {Object} $
+     *
+     * @return {Promise}
+     */
+    $.gmapsLoader = (function ($) {
+
+        var gmapsComponentLoaderError = function(message) {
+            this.name = "Google Maps Loader";
+            this.message = message;
+        };
+        gmapsComponentLoaderError.prototype = new Error();
+        gmapsComponentLoaderError.prototype.constructor = gmapsComponentLoaderError;
+
+        var promise;
+        var message;
+
+        return function ( pParams ) {
+
+            if (promise) {
+                return promise;
+            }
+
+            var deferred = $.Deferred();
+
+            $.when(
+                $.gmapsApiLoader( pParams.mapsVersion, pParams.apiKey, pParams.language, pParams.libraries, pParams.sensor )
+            )
+            .done(function(){
+
+                $.when(
+                    $.gmapsPluginLoader( pParams.plugins )
+                )
+                .done(function(){
+                    deferred.resolve();
+                })
+                .fail(function(){
+
+                    message = 'Some components could not be loaded.';
+                    deferred.reject( message );
+                    throw new gmapsComponentLoaderError( message );
+
+                });
+
+            })
+            .fail(function(){
+
+                message = 'Google Maps could not be loaded.';
+                deferred.reject( message );
+                throw new gmapsComponentLoaderError( message );
+
+            });
+
+            promise = deferred.promise();
+            return promise;
+
+        };
+
+    })($);
+
 })( jQuery, window, document );
