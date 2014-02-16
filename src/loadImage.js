@@ -8,13 +8,13 @@
  *
  * @return {Deferr}
  */
-$.loadImage = $.createCache(function( defer, url ) {
+$.loadImage = $.createCache(function ( defer, url ) {
 	var image = new Image();
-	function cleanUp() {
+	function cleanUp () {
 		image.onload = image.onerror = null;
 	}
 	defer.then( cleanUp, cleanUp );
-	image.onload = function() {
+	image.onload = function () {
 		defer.resolve( url );
 	};
 	image.onerror = defer.reject;

@@ -9,16 +9,16 @@
 		var deferreds = [];
 		var deferred = $.Deferred();
 
-		$.each( arrComponents, function(index, value){
+		$.each( arrComponents, function (index, value) {
 			deferreds.push( $[ getScriptCall ](value) );
 		});
 
 		$.when
 			.apply(window, deferreds)
-			.done(function(){
+			.done(function () {
 				deferred.resolve( arguments );
 			})
-			.fail(function(){
+			.fail(function () {
 				deferred.reject( 'Assets could not be loaded.' );
 			});
 

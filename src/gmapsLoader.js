@@ -19,6 +19,7 @@
      */
     /*globals window, google, jQuery*/
     var loadGoogleMaps = (function ($) {
+        /* jshint quotmark:false, maxparams:10 */
         "use strict";
 
         var now = $.now(),
@@ -108,12 +109,12 @@
      */
     $.gmapsLoader = (function ($) {
 
-        var gmapsComponentLoaderError = function(message) {
-            this.name = "Google Maps Loader";
+        var GmapsComponentLoaderError = function (message) {
+            this.name = 'Google Maps Loader';
             this.message = message;
         };
-        gmapsComponentLoaderError.prototype = new Error();
-        gmapsComponentLoaderError.prototype.constructor = gmapsComponentLoaderError;
+        GmapsComponentLoaderError.prototype = new Error();
+        GmapsComponentLoaderError.prototype.constructor = GmapsComponentLoaderError;
 
         var promise;
         var message;
@@ -129,21 +130,21 @@
             $.when(
                 $.gmapsApiLoader( pParams.mapsVersion, pParams.apiKey, pParams.language, pParams.libraries, pParams.sensor )
             )
-            .done(function(){
+            .done(function () {
 
                 if ( 'plugins' in pParams ) {
 
                     $.when(
                         $.multiCachedGetScript( pParams.plugins )
                     )
-                    .done(function(){
+                    .done(function () {
                         deferred.resolve();
                     })
-                    .fail(function(){
+                    .fail(function () {
 
                         message = 'Some components could not be loaded.';
                         deferred.reject( message );
-                        throw new gmapsComponentLoaderError( message );
+                        throw new GmapsComponentLoaderError( message );
 
                     });
 
@@ -154,11 +155,11 @@
                 }
 
             })
-            .fail(function(){
+            .fail(function () {
 
                 message = 'Google Maps could not be loaded.';
                 deferred.reject( message );
-                throw new gmapsComponentLoaderError( message );
+                throw new GmapsComponentLoaderError( message );
 
             });
 
