@@ -1,0 +1,23 @@
+{
+  "name": "loaders",
+  "version": "0.0.0",
+  "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
+  "homepage": "https://github.com/niksy/loaders",
+  "keywords": [
+    "loaders"
+  ],
+  "authors": [
+    "Ivan Nikolić"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0"
+  }
+}

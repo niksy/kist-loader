@@ -1,0 +1,25 @@
+{
+  "name": "loaders",
+  "version": "0.0.0",
+  "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/niksy/loaders.git"
+  },
+  "keywords": [
+    "loaders"
+  ],
+  "author": "Ivan Nikolić",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/niksy/loaders/issues"
+  },
+  "homepage": "https://github.com/niksy/loaders"
+}
