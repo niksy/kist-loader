@@ -1,3 +1,6 @@
+/**
+ * `$.getScript` with array of scripts
+ */
 ;(function ( $, window, document, undefined ) {
 
 	var resolver = function ( getScriptCall, arrComponents ) {

@@ -3,6 +3,8 @@
     /*!
      * JavaScript - loadGoogleMaps( version, apiKey, language, libraries, sensor )
      *
+     * Ref. https://gist.github.com/GFoley83/5953448
+     *
      * - Load Google Maps API using jQuery Deferred.
      *   Useful if you want to only load the Google Maps API on-demand.
      * - Requires jQuery 1.5
