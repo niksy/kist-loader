@@ -1,5 +1,5 @@
 {
-  "name": "loaders",
+  "name": "kist-loaders",
   "version": "0.1.0",
   "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
   "main": "Gruntfile.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/niksy/loaders.git"
+    "url": "git://github.com/niksy/kist-loaders.git"
   },
   "keywords": [
     "loaders"
@@ -19,9 +19,9 @@
   "author": "Ivan Nikolić",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/niksy/loaders/issues"
+    "url": "https://github.com/niksy/kist-loaders/issues"
   },
-  "homepage": "https://github.com/niksy/loaders",
+  "homepage": "https://github.com/niksy/kist-loaders",
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-concat": "~0.3.0",

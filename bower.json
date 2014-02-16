@@ -1,8 +1,8 @@
 {
-  "name": "loaders",
+  "name": "kist-loaders",
   "version": "0.1.0",
   "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
-  "homepage": "https://github.com/niksy/loaders",
+  "homepage": "https://github.com/niksy/kist-loaders",
   "keywords": [
     "loaders"
   ],

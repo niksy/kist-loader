@@ -1,4 +1,4 @@
-# Loaders
+# Kist Loaders
 
 Loader utilities for client-side JavaScript. Based on jQuery.
 
