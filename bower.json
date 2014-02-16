@@ -19,5 +19,9 @@
   ],
   "dependencies": {
     "jquery": "~2.1.0"
+  },
+  "devDependencies": {
+    "gmaps-infobox": "https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js",
+    "gmaps-maplabel": "https://google-maps-utility-library-v3.googlecode.com/svn/trunk/maplabel/src/maplabel.js"
   }
 }
