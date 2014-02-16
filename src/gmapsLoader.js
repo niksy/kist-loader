@@ -173,19 +173,27 @@
             )
             .done(function(){
 
-                $.when(
-                    $.gmapsPluginLoader( pParams.plugins )
-                )
-                .done(function(){
+                if ( 'plugins' in pParams ) {
+
+                    $.when(
+                        $.gmapsPluginLoader( pParams.plugins )
+                    )
+                    .done(function(){
+                        deferred.resolve();
+                    })
+                    .fail(function(){
+
+                        message = 'Some components could not be loaded.';
+                        deferred.reject( message );
+                        throw new gmapsComponentLoaderError( message );
+
+                    });
+
+                } else {
+
                     deferred.resolve();
-                })
-                .fail(function(){
 
-                    message = 'Some components could not be loaded.';
-                    deferred.reject( message );
-                    throw new gmapsComponentLoaderError( message );
-
-                });
+                }
 
             })
             .fail(function(){
