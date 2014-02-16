@@ -1,6 +1,6 @@
 {
   "name": "kist-loaders",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Loader utilities for client-side JavaScript. Based on jQuery.",
   "main": "Gruntfile.js",
   "directories": {
