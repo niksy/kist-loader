@@ -20,7 +20,7 @@
 				id = 'gplus-sdk';
 			}
 		}
-		if (document.getElementById(id)) {
+		if ( document.getElementById(id) || fjs.parentNode === null ) {
 			return;
 		}
 		js = document.createElement(script);
