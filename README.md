@@ -1,76 +1,152 @@
-# Kist Loaders
+# kist-loader
 
-Loader utilities for client-side JavaScript. Based on jQuery.
+Simple asset loader.
 
-## Usage
+## Installation
 
-```javascript
-$.cachedGetScript('file.js').done(function ( data ) {
-	console.info( 'Loaded!' );
-});
-
-$.loadImage('unicorn.jpg').done(function () {
-	console.info( 'Loaded!' );
-});
-
-$.gmapsLoader({
-	apiKey: 'API KEY',
-	plugins: [ 'gmaps-plugin1.js', 'gmaps-plugin2.js' ],
-	language: 'en',
-	libraries: 'geometry'
-})
-.done(function () {
-	console.info( 'Loaded!' );
-});
-
-$.multiGetScript( [ 'dep1.js', 'dep2.js' ] ).done(function ( data ) {
-	console.info( 'Loaded!' );
-});
-
-$.multiCachedGetScript( [ 'dep1.js', 'dep2.js' ] ).done(function ( data ) {
-	console.info( 'Loaded!' );
-});
-
-$.asyncLoad('//connect.facebook.net/en_US/all.js#xfbml=1');
-$.asyncLoad('//platform.twitter.com/widgets.js');
-$.asyncLoad('https://apis.google.com/js/platform.js','gplusSdk');
+```sh
+bower install niksy/kist-loader
 ```
 
-## Description
+## API
 
-#### `$.cachedGetScript`
+### `load(<string|array>, [success], [error])`
 
-Similar to `$.getScript`, but caches request so it won’t fire again for
-current session.
+Type: `String`, `Array`
+Returns: `Deferred`
 
-#### `$.loadImage`
+Loads single or multiple assets, depending on provided argument. It will try to guess filetype by its extension.
 
-Generic image (pre)loading using `$.Deferred()`.
+You can prepend any asset URL with strings like `js`, `css`, `img` or `async` to force specific resource type loading.
 
-#### `$.gmapsLoader`
+### `loadJS(<string|array>, [success], [error])`
 
-Loads Google Maps API with predefined options and returns `$.Deferred()` after
-everything is done.
+Type: `String`, `Array`
+Returns: `Deferred`
 
-#### `$.multiGetScript`
+Loads single or multiple JS assets.
 
-Extends `$.getScript` with ability to provide array of assets to load.
+### `loadCSS(<string|array>, [success], [error])`
 
-#### `$.multiCachedGetScript`
+Type: `String`, `Array`
+Returns: `Deferred`
 
-Similar to `$.multiGetScript`, but caches requests so it won’t fire again for
-current session.
+Loads single or multiple CSS assets.
 
-#### `$.asyncLoad`
+### `loadImage(<string|array>, [success], [error])`
 
-Asynchronous load of JS content (e.g. third-party components such as Facebook SDK).
+Type: `String`, `Array`
+Returns: `Deferred`
 
-Automatically resolves to default ID for known platforms, otherwise option is
-available if you want to specify custom ID. Setting ID prevents multiple downloads
-of the script.
+Loads single or multiple image assets.
 
-## Acknowledgments
+### `loadAsync(<string|array>, [success], [error])`
 
-* [jQuery documentation on Deferreds](http://learn.jquery.com/code-organization/deferreds/examples/#generic-asynchronous-cache)
-* [Google Maps loader starting code](https://gist.github.com/GFoley83/5953448)
-* [Async load](https://gist.github.com/necolas/1025811)
+Type: `String`, `Array`
+Returns: `Deferred`
+
+Loads single or multiple assets "async way", e.g. for including 3rd party SDKs such as Facebook or Google+ SDK.
+
+### `loadGmaps(<object>, [success], [error])`
+
+Type: `Object`
+Returns: `Deferred`
+
+Loads Google Maps SDK. Available options are:
+
+* `apiKey` - Your project’s API key
+* `plugins` - Google Maps plugins
+* `language` - Language for Google Maps UI
+* `libraries` - Google Maps libraries
+
+Support for Google Maps loading is not included by default. You must include provided plugin for this.
+
+##### Examples
+
+Detailed examples can be found in `test` directory.
+
+```js
+// JS assets
+$.kist.loader
+	.load('x.js')
+	.done(function ( js ) {
+		console.log( 'Asset x.js loaded.' );
+	});
+
+$.kist.loader
+	.load(['x.js','y.js'])
+	.done(function ( js1, js2 ) {
+		console.log( 'Assets x.js and y.js loaded.' );
+	});
+
+$.kist.loader
+	.load('x.js', function ( js ) {
+		console.log( 'Asset x.js loaded.' );
+	});
+
+// CSS assets
+$.kist.loader
+	.load('x.css')
+	.done(function ( css ) {
+		console.log( 'Asset x.css loaded.' );
+	});
+
+$.kist.loader
+	.load(['x.css','y.css'])
+	.done(function ( css1, css2 ) {
+		console.log( 'Assets x.css and y.css loaded.' );
+	});
+
+$.kist.loader
+	.load('x.css', function ( css ) {
+		console.log( 'Asset x.css loaded.' );
+	});
+
+// Image assets
+$.kist.loader
+	.load('x.jpg')
+	.done(function ( img ) {
+		console.log( 'Asset x.jpg loaded.' );
+	});
+
+$.kist.loader
+	.load(['x.jpg','y.jpg'])
+	.done(function ( img1, img2 ) {
+		console.log( 'Assets x.jpg and y.jpg loaded.' );
+	});
+
+$.kist.loader
+	.load('x.jpg', function ( img ) {
+		console.log( 'Asset x.jpg loaded.' );
+	});
+
+// Mixed assets
+$.kist.loader
+	.load(['x.js','y.css'], function ( js, css ) {
+		console.log( 'Assets x.js and y.css loaded.' );
+	});
+
+// Aliases
+$.kist.loader
+	.loadJS(['z.js'], function ( js ) {
+		console.log( 'Asset z.js' );
+	});
+
+$.kist.loader
+	.loadCSS(['z.css'], function ( css ) {
+		console.log( 'Asset z.css' );
+	});
+
+$.kist.loader
+	.loadImage(['z.jpg'], function ( img ) {
+		console.log( 'Asset z.jpg' );
+	});
+```
+
+## Browser support
+
+Tested in IE8+ and all modern browsers.
+
+## License
+
+MIT © [Ivan Nikolić](http://ivannikolic.com)

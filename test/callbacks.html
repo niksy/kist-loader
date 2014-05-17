@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Callback</title>
+</head>
+<body>
+
+	<button type="button" class="array-js-done">Load JS file (param as array)</button>
+	<button type="button" class="array-css-done">Load CSS file (param as array)</button>
+	<button type="button" class="array-image-done">Load image file (param as array)</button>
+
+	<button type="button" class="array-js-fail">Load non-existent JS file (param as array)</button>
+	<button type="button" class="array-css-fail">Load non-existent CSS file (param as array)</button>
+	<button type="button" class="array-image-fail">Load non-existent image file (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-js-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js'], function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-css-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css'], function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-image-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/img/test-01.jpg'], function ( img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				});
+
+		});
+
+		$('.array-js-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/x.js'], function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				}, function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-css-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/x.css'], function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				}, function ( css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-image-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/img/x.jpg'], function ( img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				}, function ( img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>

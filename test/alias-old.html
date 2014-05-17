@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Old alias</title>
+</head>
+<body>
+
+	<button type="button" class="alias-01">$.cachedGetScript</button>
+	<button type="button" class="alias-02">$.multiGetScript</button>
+	<button type="button" class="alias-03">$.multiCachedGetScript</button>
+	<button type="button" class="alias-04">$.loadImage</button>
+	<button type="button" class="alias-05">$.asyncLoad</button>
+	<button type="button" class="alias-06">$.gmapsLoader</button>
+
+	<div class="sandbox">
+		<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+	</div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script src="../src/plugins/alias.js"></script>
+	<script>
+
+		$('.alias-01').on('click', function () {
+
+				$.cachedGetScript('assets/js/test-01.js')
+					.done(function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					})
+					.fail(function ( js ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					});
+
+		});
+
+		$('.alias-02').on('click', function () {
+
+				$.multiGetScript(['assets/js/test-01.js','assets/js/test-02.js'])
+					.done(function ( js1, js2 ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					})
+					.fail(function ( js1, js2 ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					});
+
+		});
+
+		$('.alias-03').on('click', function () {
+
+				$.multiCachedGetScript(['assets/js/test-01.js','assets/js/test-02.js'])
+					.done(function ( js1, js2 ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					})
+					.fail(function ( js1, js2 ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					});
+
+		});
+
+		$('.alias-04').on('click', function () {
+
+				$.loadImage(['assets/img/test-01.jpg'])
+					.done(function ( img ) {
+						console.log( 'Done' );
+						console.log( arguments );
+						$(img[0]).appendTo('.sandbox');
+					})
+					.fail(function ( img ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					});
+
+		});
+
+		$('.alias-05').on('click', function () {
+
+				$.asyncLoad(['//connect.facebook.net/en_US/all.js#xfbml=1'])
+					.done(function () {
+						console.log( 'Done' );
+						console.log( arguments );
+					})
+					.fail(function () {
+						console.log( 'Fail' );
+						console.log( arguments );
+					});
+
+		});
+
+	</script>
+
+</body>
+</html>

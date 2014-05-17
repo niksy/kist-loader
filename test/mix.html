@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Mix</title>
+</head>
+<body>
+
+	<button type="button" class="array-done-01">Load JS+CSS files (param as array)</button>
+	<button type="button" class="array-done-02">Load JS+CSS+image files (param as array)</button>
+
+	<button type="button" class="array-fail-01">Load non-existent JS+CSS files (param as array)</button>
+	<button type="button" class="array-fail-02">Load non-existent JS+CSS+image files (param as array)</button>
+
+	<button type="button" class="array-single-fail-01">Load JS+CSS files, one is non-existent (param as array)</button>
+	<button type="button" class="array-single-fail-02">Load JS+CSS+image files, one is non-existent (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-done-01').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/test-01.css'])
+				.done(function ( js, css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js, css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-02').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/test-01.css','assets/img/test-01.jpg'])
+				.done(function ( js, css, img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-01').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/x.js','assets/css/x.css'])
+				.done(function ( js, css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js, css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-02').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/x.js','assets/css/x.css','assets/img/x.jpg'])
+				.done(function ( js, css, img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail-01').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/x.css'])
+				.done(function ( js, css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js, css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail-02').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/test-01.css','assets/img/x.jpg'])
+				.done(function ( js, css, img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>

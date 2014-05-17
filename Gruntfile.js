@@ -4,55 +4,36 @@ module.exports = function (grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
+		meta: {
+			banner: '<%= pkg.name %> <%= pkg.version %> - <%= pkg.description %> | Author: <%= pkg.author %>, <%= grunt.template.today("yyyy") %> | License: <%= pkg.license %>',
+			defaultBanner: '/* <%= meta.banner %> */\n',
+			unstrippedBanner: '/*! <%= meta.banner %> */\n'
+		},
+
 		concat: {
-			stripBanners: {
-				options: {
-					stripBanners: true
-				},
-				files: [{
-					expand: true,
-					cwd: 'src',
-					src: '**/*.js',
-					dest: 'dist'
-				}]
+			options: {
+				stripBanners: true,
+				banner: '<%= meta.defaultBanner %>'
 			},
-			createBannerlessFiles: {
-				options: {
-					process: function (src, filepath) {
-						return '/* ' + filepath.replace(/.+\/(.+?).js/,'$1') + ' */\n' + src;
-					}
-				},
-				files: [{
-					expand: true,
-					cwd: 'dist',
-					src: '**/*.js',
-					dest: 'dist'
-				}]
-			},
-			afterUglify: {
-				options: {
-					process: function (src, filepath) {
-						return '/*! ' + filepath.replace(/.+\/(.+?).min.js/,'$1') + ' */\n' + src;
-					}
-				},
-				files: [{
-					expand: true,
-					cwd: 'dist',
-					src: '**/*.min.js',
-					dest: 'dist'
-				}]
+			dist: {
+				files: {
+					'dist/plugins/gmaps.js': ['src/plugins/gmaps.js'],
+					'dist/plugins/alias.js': ['src/plugins/alias.js'],
+					'dist/kist-loader.js': ['src/kist-loader.js']
+				}
 			}
 		},
 
 		uglify: {
-			createMinifiedFiles: {
-				files: [{
-					expand: true,
-					cwd: 'src',
-					src: '**/*.js',
-					dest: 'dist',
-					ext: '.min.js'
-				}]
+			options: {
+			banner: '<%= meta.unstrippedBanner %>'
+			},
+			dist: {
+				files: {
+					'dist/plugins/gmaps.min.js': ['src/plugins/gmaps.js'],
+					'dist/plugins/alias.min.js': ['src/plugins/alias.js'],
+					'dist/kist-loader.min.js': ['src/kist-loader.js']
+				}
 			}
 		},
 
@@ -65,7 +46,7 @@ module.exports = function (grunt) {
 				commitFiles: ['-a'],
 				createTag: true,
 				tagName: '%VERSION%',
-				tagMessage: 'Version %VERSION%',
+				tagMessage: '',
 				push: false
 			}
 		},
@@ -78,7 +59,7 @@ module.exports = function (grunt) {
 				files: {
 					src: [
 						'src/**/*.js',
-						'!src/**/gmapsLoader.js'
+						'!src/**/gmaps.js'
 					]
 				}
 			}
@@ -104,7 +85,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks( 'grunt-bump' );
 
 	grunt.registerTask( 'stylecheck', ['jshint:main', 'jscs:main'] );
-	grunt.registerTask( 'default', ['concat:stripBanners', 'concat:createBannerlessFiles', 'uglify:createMinifiedFiles', 'concat:afterUglify'] );
+	grunt.registerTask( 'default', ['concat:dist', 'uglify:dist'] );
 	grunt.registerTask( 'releasePatch', ['bump-only:patch', 'default', 'bump-commit'] );
 	grunt.registerTask( 'releaseMinor', ['bump-only:minor', 'default', 'bump-commit'] );
 	grunt.registerTask( 'releaseMajor', ['bump-only:major', 'default', 'bump-commit'] );

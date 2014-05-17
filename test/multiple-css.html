@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Multiple CSS</title>
+</head>
+<body>
+
+	<button type="button" class="array-done">Load CSS files (param as array)</button>
+
+	<button type="button" class="array-fail">Load non-existent CSS files (param as array)</button>
+	<button type="button" class="array-single-fail">Load CSS files, one is non-existent (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css','assets/css/test-02.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/x.css','assets/css/y.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css','assets/css/y.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>

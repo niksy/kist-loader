@@ -1,0 +1,1 @@
+$('.sandbox').append('<p>File "test-03", which should be treated as JS, loaded!</p>');
