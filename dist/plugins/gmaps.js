@@ -1,4 +1,4 @@
-/* kist-loader 0.1.4 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/* kist-loader 0.2.0 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	if ( !$.kist && !$.kist.loader ) {
