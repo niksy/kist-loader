@@ -225,11 +225,11 @@
 		var img = new Image();
 
 		assetsCache[ url ].dfd.always(function () {
-			img.onload = img.onerror = null;
+			img.onload = img.onerror = img.onabort = null;
 		});
 
-		img.onload = $.proxy( assetsCache[ url ].dfd.resolve, window, img, 'success' );
-		img.onerror = $.proxy( assetsCache[ url ].dfd.reject, window, img, 'error' );
+		img.onload  = $.proxy( assetsCache[ url ].dfd.resolve, window, img, 'success' );
+		img.onerror = img.onabort = $.proxy( assetsCache[ url ].dfd.reject, window, img, 'error' );
 
 		img.src = ( !options.cache ? url + '?_=' + $.now() : url );
 
