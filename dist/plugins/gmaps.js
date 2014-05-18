@@ -1,4 +1,4 @@
-/* kist-loader 0.2.0 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/* kist-loader 0.3.0 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	if ( !$.kist && !$.kist.loader ) {
@@ -7,8 +7,6 @@
 
 	/*!
 	 * JavaScript - loadGoogleMaps( version, apiKey, language, libraries, sensor )
-	 *
-	 * Ref. https://gist.github.com/GFoley83/5953448
 	 *
 	 * - Load Google Maps API using jQuery Deferred.
 	 *   Useful if you want to only load the Google Maps API on-demand.
@@ -107,7 +105,7 @@
 
 	$.extend($.kist.loader, {
 
-		loadGmaps: function ( params, doneCb, failCb ) {
+		loadGmaps: function ( params, cb ) {
 
 			if (nextPromise) {
 				return nextPromise;
@@ -125,8 +123,8 @@
 					)
 					.done(function () {
 						dfd.resolve();
-						if ( doneCb ) {
-							doneCb();
+						if ( cb ) {
+							cb();
 						}
 					})
 					.fail(function () {
@@ -136,8 +134,8 @@
 					});
 				} else {
 					dfd.resolve();
-					if ( doneCb ) {
-						doneCb();
+					if ( cb ) {
+						cb();
 					}
 				}
 			})
