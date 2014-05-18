@@ -2,19 +2,19 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Alias JS</title>
+	<title>Alias JS, single</title>
 </head>
 <body>
 
 	<button type="button" class="string-done">Load JS file (param as string)</button>
 	<button type="button" class="array-done">Load JS file (param as array)</button>
-	<button type="button" class="array-done-multi">Load JS files (param as array)</button>
-	<button type="button" class="array-done-callback">Load JS files with callback (param as array)</button>
+	<button type="button" class="string-done-recache">Load JS file, no cache (param as string)</button>
+	<button type="button" class="array-done-recache">Load JS file, no cache (param as array)</button>
 
 	<button type="button" class="string-fail">Load non-existent JS file (param as string)</button>
 	<button type="button" class="array-fail">Load non-existent JS file (param as array)</button>
-	<button type="button" class="array-fail-multi">Load non-existent JS files (param as array)</button>
-	<button type="button" class="array-fail-callback">Load non-existent JS files with callback (param as array)</button>
+	<button type="button" class="string-fail-recache">Load non-existent JS file, no cache (param as string)</button>
+	<button type="button" class="array-fail-recache">Load non-existent JS file, no cache (param as array)</button>
 
 	<div class="sandbox"></div>
 
@@ -25,7 +25,7 @@
 		$('.string-done').on('click', function () {
 
 			$.kist.loader
-				.loadJS('assets/js/test-01.js')
+				.loadScript('assets/js/test-01.js')
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
@@ -40,7 +40,7 @@
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/test-01.js'])
+				.loadScript(['assets/js/test-01.js'])
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
@@ -52,28 +52,36 @@
 
 		});
 
-		$('.array-done-multi').on('click', function () {
+		$('.string-done-recache').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/test-01.js','js!assets/js/test-02.js'])
-				.done(function ( js1, js2 ) {
+				.loadScript({
+					url: 'assets/js/test-01.js',
+					cache: false
+				})
+				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
 				})
-				.fail(function ( js1, js2 ) {
+				.fail(function ( js ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
 
 		});
 
-		$('.array-done-callback').on('click', function () {
+		$('.array-done-recache').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/test-01.js','assets/js/test-02.js'], function ( js1, js2 ){
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					cache: false
+				})
+				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
-				}, function ( js1, js2 ) {
+				})
+				.fail(function ( js ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
@@ -83,7 +91,7 @@
 		$('.string-fail').on('click', function () {
 
 			$.kist.loader
-				.loadJS('assets/js/x.js')
+				.loadScript('assets/js/x.js')
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
@@ -98,7 +106,7 @@
 		$('.array-fail').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/x.js'])
+				.loadScript(['assets/js/x.js'])
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
@@ -110,28 +118,36 @@
 
 		});
 
-		$('.array-fail-multi').on('click', function () {
+		$('.string-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/x.js','assets/js/y.js'])
-				.done(function ( js1, js2 ) {
+				.loadScript({
+					url: 'assets/js/x.js',
+					cache: false
+				})
+				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
 				})
-				.fail(function ( js1, js2 ) {
+				.fail(function ( js ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
 
 		});
 
-		$('.array-fail-callback').on('click', function () {
+		$('.array-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.loadJS(['assets/js/x.js','assets/js/y.js'], function ( js1, js2 ){
+				.loadScript({
+					url: ['assets/js/x.js'],
+					cache: false
+				})
+				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
-				}, function ( js1, js2 ) {
+				})
+				.fail(function ( js ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});

@@ -2,19 +2,19 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Alias image</title>
+	<title>Alias image, single</title>
 </head>
 <body>
 
 	<button type="button" class="string-done">Load image file (param as string)</button>
 	<button type="button" class="array-done">Load image file (param as array)</button>
-	<button type="button" class="array-done-multi">Load image files (param as array)</button>
-	<button type="button" class="array-done-callback">Load image files with callback (param as array)</button>
+	<button type="button" class="string-done-recache">Load image file, no cache (param as string)</button>
+	<button type="button" class="array-done-recache">Load image file, no cache (param as array)</button>
 
 	<button type="button" class="string-fail">Load non-existent image file (param as string)</button>
 	<button type="button" class="array-fail">Load non-existent image file (param as array)</button>
-	<button type="button" class="array-fail-multi">Load non-existent image files (param as array)</button>
-	<button type="button" class="array-fail-callback">Load non-existent image files with callback (param as array)</button>
+	<button type="button" class="string-fail-recache">Load non-existent image file, no cache (param as string)</button>
+	<button type="button" class="array-fail-recache">Load non-existent image file, no cache (param as array)</button>
 
 	<div class="sandbox"></div>
 
@@ -54,32 +54,38 @@
 
 		});
 
-		$('.array-done-multi').on('click', function () {
+		$('.string-done-recache').on('click', function () {
 
 			$.kist.loader
-				.loadImage(['assets/img/test-01.jpg','img!assets/img/test-02.jpg'])
-				.done(function ( img1, img2 ) {
+				.loadImage({
+					url: 'assets/img/test-01.jpg',
+					cache: false
+				})
+				.done(function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
-					$(img1[0]).appendTo('.sandbox');
-					$(img2[0]).appendTo('.sandbox');
+					$(img[0]).appendTo('.sandbox');
 				})
-				.fail(function ( img1, img2 ) {
+				.fail(function ( img ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
 
 		});
 
-		$('.array-done-callback').on('click', function () {
+		$('.array-done-recache').on('click', function () {
 
 			$.kist.loader
-				.loadImage(['assets/img/test-01.jpg','assets/img/test-02.jpg'], function ( img1, img2 ){
+				.loadImage({
+					url: ['assets/img/test-01.jpg'],
+					cache: false
+				})
+				.done(function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
-					$(img1[0]).appendTo('.sandbox');
-					$(img2[0]).appendTo('.sandbox');
-				}, function ( img1, img2 ) {
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
@@ -118,32 +124,38 @@
 
 		});
 
-		$('.array-fail-multi').on('click', function () {
+		$('.string-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.loadImage(['assets/img/x.jpg','assets/img/y.jpg'])
-				.done(function ( img1, img2 ) {
+				.loadImage({
+					url: 'assets/img/x.jpg',
+					cache: false
+				})
+				.done(function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
-					$(img1[0]).appendTo('.sandbox');
-					$(img2[0]).appendTo('.sandbox');
+					$(img[0]).appendTo('.sandbox');
 				})
-				.fail(function ( img1, img2 ) {
+				.fail(function ( img ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
 
 		});
 
-		$('.array-fail-callback').on('click', function () {
+		$('.array-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.loadImage(['assets/img/x.jpg','assets/img/y.jpg'], function ( img1, img2 ){
+				.loadImage({
+					url: ['assets/img/x.jpg'],
+					cache: false
+				})
+				.done(function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
-					$(img1[0]).appendTo('.sandbox');
-					$(img2[0]).appendTo('.sandbox');
-				}, function ( img1, img2 ) {
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});

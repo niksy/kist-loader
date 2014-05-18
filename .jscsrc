@@ -19,7 +19,6 @@
 		"beforeOpeningCurlyBrace": true
 	},
 	"disallowMultipleVarDecl": true,
-	"requireBlocksOnNewline": true,
 	"disallowEmptyBlocks": true,
 	"disallowDanglingUnderscores": true,
 	"requireCommaBeforeLineBreak": true,
@@ -46,6 +45,7 @@
 	"requireCapitalizedConstructors": true,
 	"safeContextKeyword": [ "self" ],
 	"disallowYodaConditions": true
+	// "requireBlocksOnNewline": true,
 	// "requireSpaceBeforeBlockStatements": true,
 	// "disallowTrailingComma": true,
 }

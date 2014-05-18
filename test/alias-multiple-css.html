@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Alias CSS, multiple</title>
+</head>
+<body>
+
+	<button type="button" class="array-done-multi">Load CSS files (param as array)</button>
+	<button type="button" class="array-done-multi-recache">Load CSS files, no cache (param as array)</button>
+
+	<button type="button" class="array-fail-multi">Load non-existent CSS files (param as array)</button>
+	<button type="button" class="array-fail-multi-recache">Load non-existent CSS files, no cache (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-done-multi').on('click', function () {
+
+			$.kist.loader
+				.loadStyle(['assets/css/test-01.css','assets/css/test-02.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi').on('click', function () {
+
+			$.kist.loader
+				.loadStyle(['assets/css/x.css','assets/css/y.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadStyle({
+					url: ['assets/css/test-01.css','assets/css/test-02.css'],
+					cache: false
+				})
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadStyle({
+					url: ['assets/css/x.css','assets/css/y.css'],
+					cache: false
+				})
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>

@@ -10,58 +10,82 @@ bower install niksy/kist-loader
 
 ## API
 
-### `load(<string|array>, [success], [error])`
+### `load(options, [success])`
 
-Type: `String`, `Array`
 Returns: `Deferred`
 
-Loads single or multiple assets, depending on provided argument. It will try to guess filetype by its extension.
+#### options
 
-You can prepend any asset URL with strings like `js`, `css`, `img` or `async` to force specific resource type loading.
+Type: `String`, `Array`, `Object`  
+*Required*
 
-### `loadJS(<string|array>, [success], [error])`
+Single or multiple assets to load.
 
-Type: `String`, `Array`
-Returns: `Deferred`
+* `String` - Single asset
+* `Array` - Single or multiple assets
+* `Object` - Assets are provided in `url` property
+
+It will try to guess filetype by its extension. You can prepend any asset URL with strings `js!`, `css!`, `img!` or `async!` to force specific resource type loading.
+
+#### success
+
+Type: `Function`
+
+Callback after everything has been successfully loaded. For error callback use `fail` method on returned `Deferred` object.
+
+##### options as object
+
+###### url
+
+Type: `String`, `Array`  
+*Required*
+
+Single or multiple assets to load.
+
+###### cache
+
+Type: `Boolean`  
+Default: `true`
+
+Wether to cache assets or request new version every time by appending query string with timestamp.
+
+### Aliases
+
+For convenience, aliases for supported asset types are provided. They will always force loading with preferred method (regardless of setting).
+
+#### `loadScript(options, [success])`
 
 Loads single or multiple JS assets.
 
-### `loadCSS(<string|array>, [success], [error])`
-
-Type: `String`, `Array`
-Returns: `Deferred`
+#### `loadStyle(options, [success])`
 
 Loads single or multiple CSS assets.
 
-### `loadImage(<string|array>, [success], [error])`
-
-Type: `String`, `Array`
-Returns: `Deferred`
+#### `loadImage(options, [success])`
 
 Loads single or multiple image assets.
 
-### `loadAsync(<string|array>, [success], [error])`
-
-Type: `String`, `Array`
-Returns: `Deferred`
+#### `loadAsync(options, [success])`
 
 Loads single or multiple assets "async way", e.g. for including 3rd party SDKs such as Facebook or Google+ SDK.
 
-### `loadGmaps(<object>, [success], [error])`
+### Plugins
 
-Type: `Object`
-Returns: `Deferred`
+Certain method are not provided by default and they should be included as plugins.
 
-Loads Google Maps SDK. Available options are:
+#### `loadGmaps(options, [success])`
+
+##### options
+
+Type: `Object`  
+*Required*
 
 * `apiKey` - Your project’s API key
 * `plugins` - Google Maps plugins
 * `language` - Language for Google Maps UI
 * `libraries` - Google Maps libraries
 
-Support for Google Maps loading is not included by default. You must include provided plugin for this.
-
-##### Examples
+#### Examples
 
 Detailed examples can be found in `test` directory.
 
@@ -128,12 +152,12 @@ $.kist.loader
 
 // Aliases
 $.kist.loader
-	.loadJS(['z.js'], function ( js ) {
+	.loadScript(['z.js'], function ( js ) {
 		console.log( 'Asset z.js' );
 	});
 
 $.kist.loader
-	.loadCSS(['z.css'], function ( css ) {
+	.loadStyle(['z.css'], function ( css ) {
 		console.log( 'Asset z.css' );
 	});
 
@@ -146,6 +170,13 @@ $.kist.loader
 ## Browser support
 
 Tested in IE8+ and all modern browsers.
+
+## Acknowledgments
+  
+* [jQuery documentation on Deferreds](http://learn.jquery.com/code-organization/deferreds/examples/#generic-asynchronous-cache)
+* [Google Maps loader starting code](https://gist.github.com/GFoley83/5953448)
+* [Async load](https://gist.github.com/necolas/1025811)
+* [Applying CSS in IE](http://stackoverflow.com/questions/805384/how-to-apply-inline-and-or-external-css-loaded-dynamically-with-jquery)
 
 ## License
 

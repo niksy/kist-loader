@@ -4,5 +4,5 @@
 }
 .sandbox:before {
 	content:'File "test-03", which should be treated as CSS, loaded!';
-	color:#fff;
+	color:brown;
 }

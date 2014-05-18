@@ -7,8 +7,6 @@
 	/*!
 	 * JavaScript - loadGoogleMaps( version, apiKey, language, libraries, sensor )
 	 *
-	 * Ref. https://gist.github.com/GFoley83/5953448
-	 *
 	 * - Load Google Maps API using jQuery Deferred.
 	 *   Useful if you want to only load the Google Maps API on-demand.
 	 * - Requires jQuery 1.5
@@ -106,7 +104,7 @@
 
 	$.extend($.kist.loader, {
 
-		loadGmaps: function ( params, doneCb, failCb ) {
+		loadGmaps: function ( params, cb ) {
 
 			if (nextPromise) {
 				return nextPromise;
@@ -124,8 +122,8 @@
 					)
 					.done(function () {
 						dfd.resolve();
-						if ( doneCb ) {
-							doneCb();
+						if ( cb ) {
+							cb();
 						}
 					})
 					.fail(function () {
@@ -135,8 +133,8 @@
 					});
 				} else {
 					dfd.resolve();
-					if ( doneCb ) {
-						doneCb();
+					if ( cb ) {
+						cb();
 					}
 				}
 			})

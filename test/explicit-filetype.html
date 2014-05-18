@@ -2,18 +2,24 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Single JS</title>
+	<title>Explicit filetype</title>
 </head>
 <body>
 
 	<button type="button" class="string-js">Load JS file explicitly (param as string)</button>
-	<button type="button" class="array-js">Load JS file explicitly (param as aray)</button>
+	<button type="button" class="array-js">Load JS file explicitly (param as array)</button>
+	<button type="button" class="string-js-recache">Load JS file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-js-recache">Load JS file explicitly, no cache (param as array)</button>
 
 	<button type="button" class="string-css">Load CSS file explicitly (param as string)</button>
-	<button type="button" class="array-css">Load CSS file explicitly (param as aray)</button>
+	<button type="button" class="array-css">Load CSS file explicitly (param as array)</button>
+	<button type="button" class="string-css-recache">Load CSS file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-css-recache">Load CSS file explicitly, no cache (param as array)</button>
 
 	<button type="button" class="string-img">Load image file explicitly (param as string)</button>
-	<button type="button" class="array-img">Load image file explicitly (param as aray)</button>
+	<button type="button" class="array-img">Load image file explicitly (param as array)</button>
+	<button type="button" class="string-img-recache">Load image file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-img-recache">Load image file explicitly, no cache (param as array)</button>
 
 	<div class="sandbox"></div>
 
@@ -40,6 +46,42 @@
 
 			$.kist.loader
 				.load(['js!assets/js/test-03'])
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-js-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'js!assets/js/test-03',
+					cache: false
+				})
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-js-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['js!assets/js/test-03'],
+					cache: false
+				})
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
@@ -81,6 +123,42 @@
 
 		});
 
+		$('.string-css-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'css!assets/css/test-03',
+					cache: false
+				})
+				.done(function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-css-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['css!assets/css/test-03'],
+					cache: false
+				})
+				.done(function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
 		$('.string-img').on('click', function () {
 
 			$.kist.loader
@@ -101,6 +179,44 @@
 
 			$.kist.loader
 				.load(['img!assets/img/test-03'])
+				.done(function ( img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-img-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'img!assets/img/test-03',
+					cache: false
+				})
+				.done(function ( img ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-img-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['img!assets/img/test-03'],
+					cache: false
+				})
 				.done(function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );

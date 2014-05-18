@@ -2,42 +2,25 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Single async</title>
+	<title>Alias async, multiple</title>
 </head>
 <body>
 
-	<p>This won’t work by default since you have to explictly tell loader to load async components (via alias or explicit definition).</p>
-
-	<button type="button" class="string-done">Load async (param as string)</button>
 	<button type="button" class="array-done">Load async (param as array)</button>
 
 	<div class="sandbox">
 		<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		<div class="g-plusone" data-annotation="inline" data-width="300"></div>
 	</div>
 
 	<script src="../bower_components/jquery/dist/jquery.js"></script>
 	<script src="../src/kist-loader.js"></script>
 	<script>
 
-		$('.string-done').on('click', function () {
-
-			$.kist.loader
-				.load('async!//connect.facebook.net/en_US/all.js#xfbml=1')
-				.done(function ( js ) {
-					console.log( 'Done' );
-					console.log( arguments );
-				})
-				.fail(function ( js ) {
-					console.log( 'Fail' );
-					console.log( arguments );
-				});
-
-		});
-
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
-				.load(['async!//connect.facebook.net/en_US/all.js#xfbml=1'])
+				.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1','https://apis.google.com/js/platform.js'])
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );

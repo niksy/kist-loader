@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Callbacks CSS</title>
+</head>
+<body>
+
+	<button type="button" class="array-done">Load CSS file (param as array)</button>
+	<button type="button" class="array-done-optcb">Load CSS file, callback in object (param as array)</button>
+
+	<button type="button" class="array-done-recache">Load CSS file, no cache (param as array)</button>
+	<button type="button" class="array-done-recache-optcb">Load CSS file, no cache, callback in object (param as array)</button>
+
+	<button type="button" class="array-fail">Load non-existent CSS file (param as array)</button>
+	<button type="button" class="array-fail-optcb">Load non-existent CSS file, callback in object (param as array)</button>
+
+	<button type="button" class="array-fail-recache">Load non-existent CSS file, no cache (param as array)</button>
+	<button type="button" class="array-fail-recache-optcb">Load non-existent CSS file, no cache, callback in object (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css'], function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-optcb').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/test-01.css'],
+					success: function ( css ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-done-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/test-01.css'],
+					cache: false
+				}, function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-recache-optcb').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/test-01.css'],
+					cache: false,
+					success: function ( css ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/x.css'], function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-optcb').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/x.css'],
+					success: function ( css ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( css ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/x.css'],
+					cache: false
+				}, function ( css ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-recache-optcb').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/x.css'],
+					cache: false,
+					success: function ( css ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( css ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>

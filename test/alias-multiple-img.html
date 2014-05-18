@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Alias image, multiple</title>
+</head>
+<body>
+
+	<button type="button" class="array-done-multi">Load image files (param as array)</button>
+	<button type="button" class="array-done-multi-recache">Load image files, no cache (param as array)</button>
+
+	<button type="button" class="array-fail-multi">Load non-existent image files (param as array)</button>
+	<button type="button" class="array-fail-multi-recache">Load non-existent image files, no cache (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.array-done-multi').on('click', function () {
+
+			$.kist.loader
+				.loadImage(['assets/img/test-01.jpg','assets/img/test-02.jpg'])
+				.done(function ( img1, img2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img1[0]).appendTo('.sandbox');
+					$(img2[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img1, img2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi').on('click', function () {
+
+			$.kist.loader
+				.loadImage(['assets/img/x.jpg','assets/img/y.jpg'])
+				.done(function ( img1, img2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img1[0]).appendTo('.sandbox');
+					$(img2[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img1, img2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadImage({
+					url: ['assets/img/test-01.jpg','assets/img/test-02.jpg'],
+					cache: false
+				})
+				.done(function ( img1, img2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img1[0]).appendTo('.sandbox');
+					$(img2[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img1, img2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadImage({
+					url: ['assets/img/x.jpg','assets/img/y.jpg'],
+					cache: false
+				})
+				.done(function ( img1, img2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img1[0]).appendTo('.sandbox');
+					$(img2[0]).appendTo('.sandbox');
+				})
+				.fail(function ( img1, img2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>
