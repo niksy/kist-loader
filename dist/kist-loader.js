@@ -1,4 +1,4 @@
-/*! kist-loader 0.3.0 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-loader 0.3.1 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	var assetsCache = {};
@@ -120,7 +120,7 @@
 	}
 
 	/**
-	 * Clean asset URL from prefixes which force asse type
+	 * Clean asset URL from prefixes which force asset type
 	 *
 	 * @param  {String} url
 	 *
