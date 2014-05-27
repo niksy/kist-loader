@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Callbacks CSS</title>
+	<title>Callbacks CSS, alias</title>
 </head>
 <body>
 
@@ -31,7 +31,7 @@
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
-				.load(['assets/css/test-01.css'], function ( css ) {
+				.loadStyle(['assets/css/test-01.css'], function ( css ) {
 					console.log( 'Done' );
 					console.log( arguments );
 				});
@@ -41,7 +41,7 @@
 		$('.array-done-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/test-01.css'],
 					success: function ( css ) {
 						console.log( 'Done' );
@@ -54,7 +54,7 @@
 		$('.array-done-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/test-01.css'],
 					success: function ( css ) {
 						console.log( 'Done' );
@@ -74,7 +74,7 @@
 		$('.array-done-recache').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/test-01.css'],
 					cache: false
 				}, function ( css ) {
@@ -87,7 +87,7 @@
 		$('.array-done-recache-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/test-01.css'],
 					cache: false,
 					success: function ( css ) {
@@ -101,7 +101,7 @@
 		$('.array-done-recache-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/test-01.css'],
 					cache: false,
 					success: function ( css ) {
@@ -122,7 +122,7 @@
 		$('.array-fail').on('click', function () {
 
 			$.kist.loader
-				.load(['assets/css/x.css'], function ( css ) {
+				.loadStyle(['assets/css/x.css'], function ( css ) {
 					console.log( 'Done' );
 					console.log( arguments );
 				})
@@ -136,7 +136,7 @@
 		$('.array-fail-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/x.css'],
 					success: function ( css ) {
 						console.log( 'Done' );
@@ -153,7 +153,7 @@
 		$('.array-fail-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/x.css'],
 					success: function ( css ) {
 						console.log( 'Done' );
@@ -174,7 +174,7 @@
 		$('.array-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/x.css'],
 					cache: false
 				}, function ( css ) {
@@ -191,7 +191,7 @@
 		$('.array-fail-recache-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/x.css'],
 					cache: false,
 					success: function ( css ) {
@@ -209,7 +209,7 @@
 		$('.array-fail-recache-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadStyle({
 					url: ['assets/css/x.css'],
 					cache: false,
 					success: function ( css ) {

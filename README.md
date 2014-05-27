@@ -10,34 +10,24 @@ bower install niksy/kist-loader
 
 ## API
 
-### `load(options, [success])`
+### `.load(options, [success])`
 
 Returns: `Deferred`
 
+Load assets.
+
+Method will try to guess asset type by its extension. You can prefix any asset URL with `js!`, `css!`, `img!` or `async!` to force specific resource type loading.
+
 #### options
 
-Type: `String`, `Array`, `Object`  
+Type: `String|Array|Object`  
 *Required*
 
-Single or multiple assets to load.
-
-* `String` - Single asset
-* `Array` - Single or multiple assets
-* `Object` - Assets are provided in `url` property
-
-It will try to guess filetype by its extension. You can prepend any asset URL with strings `js!`, `css!`, `img!` or `async!` to force specific resource type loading.
-
-#### success
-
-Type: `Function`
-
-Callback after everything has been successfully loaded. For error callback use `fail` method on returned `Deferred` object.
-
-##### options as object
+##### Options defined as `Object`
 
 ###### url
 
-Type: `String`, `Array`  
+Type: `String|Array`  
 *Required*
 
 Single or multiple assets to load.
@@ -47,60 +37,67 @@ Single or multiple assets to load.
 Type: `Boolean`  
 Default: `true`
 
-Wether to cache assets or request new version every time by appending query string with timestamp.
+Cache assets or request new version every time by appending query string with timestamp.
+
+###### success
+
+Type: `Function`
+
+Callback after everything has been successfully loaded.
+
+###### error
+
+Type: `Function`
+
+Callback if (some) resources haven’t successfully loaded.
+
+#### success
+
+Type: `Function`
+
+Callback after everything has been successfully loaded.
 
 ### Aliases
 
 For convenience, aliases for supported asset types are provided. They will always force loading with preferred method (regardless of setting).
 
-#### `loadScript(options, [success])`
+#### `.loadScript(options, [success])`
 
-Loads single or multiple JS assets.
+Loads script (JS) assets.
 
-#### `loadStyle(options, [success])`
+#### `.loadStyle(options, [success])`
 
-Loads single or multiple CSS assets.
+Loads style (CSS) assets.
 
-#### `loadImage(options, [success])`
+#### `.loadImage(options, [success])`
 
-Loads single or multiple image assets.
+Loads image assets.
 
-#### `loadAsync(options, [success])`
+#### `.loadAsync(options, [success])`
 
-Loads single or multiple assets "async way", e.g. for including 3rd party SDKs such as Facebook or Google+ SDK.
+Loads assets "async way" (e.g. 3rd party SDKs such as Facebook or Google+ SDK).
 
-### Plugins
+## Examples
 
-Certain method are not provided by default and they should be included as plugins.
-
-#### `loadGmaps(options, [success])`
-
-##### options
-
-Type: `Object`  
-*Required*
-
-* `apiKey` - Your project’s API key
-* `plugins` - Google Maps plugins
-* `language` - Language for Google Maps UI
-* `libraries` - Google Maps libraries
-
-#### Examples
-
-Detailed examples can be found in `test` directory.
+### JS assets
 
 ```js
-// JS assets
 $.kist.loader
 	.load('x.js')
 	.done(function ( js ) {
 		console.log( 'Asset x.js loaded.' );
+	})
+	.fail(function ( js ) {
+		console.log( 'Asset x.js loading failed.' );
 	});
 
 $.kist.loader
 	.load(['x.js','y.js'])
 	.done(function ( js1, js2 ) {
 		console.log( 'Assets x.js and y.js loaded.' );
+	})
+	.fail(function ( js1, js2 ) {
+		console.log( 'Assets x.js and y.js loading failed.' );
 	});
 
 $.kist.loader
@@ -108,17 +105,37 @@ $.kist.loader
 		console.log( 'Asset x.js loaded.' );
 	});
 
-// CSS assets
+$.kist.loader
+	.load({
+		url: 'x.js',
+		success: function ( js ) {
+			console.log( 'Asset x.js loaded.' );
+		},
+		error: function ( js ) {
+			console.log( 'Asset x.js loading failed.' );
+		}
+	});
+```
+
+### CSS assets
+
+```js
 $.kist.loader
 	.load('x.css')
 	.done(function ( css ) {
 		console.log( 'Asset x.css loaded.' );
+	})
+	.fail(function ( css ) {
+		console.log( 'Asset x.css loading failed.' );
 	});
 
 $.kist.loader
 	.load(['x.css','y.css'])
 	.done(function ( css1, css2 ) {
 		console.log( 'Assets x.css and y.css loaded.' );
+	})
+	.fail(function ( css1, css2 ) {
+		console.log( 'Assets x.css and y.css loading failed.' );
 	});
 
 $.kist.loader
@@ -126,46 +143,100 @@ $.kist.loader
 		console.log( 'Asset x.css loaded.' );
 	});
 
-// Image assets
 $.kist.loader
-	.load('x.jpg')
+	.load({
+		url: 'x.css',
+		success: function ( css ) {
+			console.log( 'Asset x.css loaded.' );
+		},
+		error: function ( css ) {
+			console.log( 'Asset x.css loading failed.' );
+		}
+	});
+```
+
+### Image assets
+
+```js
+$.kist.loader
+	.load('x.png')
 	.done(function ( img ) {
-		console.log( 'Asset x.jpg loaded.' );
+		console.log( 'Asset x.png loaded.' );
+	})
+	.fail(function ( img ) {
+		console.log( 'Asset x.png loading failed.' );
 	});
 
 $.kist.loader
-	.load(['x.jpg','y.jpg'])
+	.load(['x.png','y.png'])
 	.done(function ( img1, img2 ) {
-		console.log( 'Assets x.jpg and y.jpg loaded.' );
+		console.log( 'Assets x.png and y.png loaded.' );
+	})
+	.fail(function ( img1, img2 ) {
+		console.log( 'Assets x.png and y.png loading failed.' );
 	});
 
 $.kist.loader
-	.load('x.jpg', function ( img ) {
-		console.log( 'Asset x.jpg loaded.' );
+	.load('x.png', function ( img ) {
+		console.log( 'Asset x.png loaded.' );
 	});
 
-// Mixed assets
+$.kist.loader
+	.load({
+		url: 'x.png',
+		success: function ( img ) {
+			console.log( 'Asset x.png loaded.' );
+		},
+		error: function ( img ) {
+			console.log( 'Asset x.png loading failed.' );
+		}
+	});
+```
+
+### Async (CORS) assets
+
+```js
+$.kist.loader
+	.load('async!//connect.facebook.net/en_US/all.js#xfbml=1');
+```
+
+### Mixed assets
+
+```js
 $.kist.loader
 	.load(['x.js','y.css'], function ( js, css ) {
 		console.log( 'Assets x.js and y.css loaded.' );
 	});
+```
 
-// Aliases
+### Aliases
+
+```js
 $.kist.loader
 	.loadScript(['z.js'], function ( js ) {
-		console.log( 'Asset z.js' );
+		console.log( 'Asset z.js loaded.' );
 	});
 
 $.kist.loader
 	.loadStyle(['z.css'], function ( css ) {
-		console.log( 'Asset z.css' );
+		console.log( 'Asset z.css loaded.' );
 	});
 
 $.kist.loader
 	.loadImage(['z.jpg'], function ( img ) {
-		console.log( 'Asset z.jpg' );
+		console.log( 'Asset z.jpg loaded.' );
 	});
+
+$.kist.loader
+	.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1']);
 ```
+
+## Addons
+
+Certain method are not provided by default and they should be included as addons.
+
+* [Google Maps loader](docs/addons.md#google-maps-loader)
+* [Aliases](docs/addons.md#aliases)
 
 ## Browser support
 
@@ -174,7 +245,6 @@ Tested in IE8+ and all modern browsers.
 ## Acknowledgments
   
 * [jQuery documentation on Deferreds](http://learn.jquery.com/code-organization/deferreds/examples/#generic-asynchronous-cache)
-* [Google Maps loader starting code](https://gist.github.com/GFoley83/5953448)
 * [Async load](https://gist.github.com/necolas/1025811)
 * [Applying CSS in IE](http://stackoverflow.com/questions/805384/how-to-apply-inline-and-or-external-css-loaded-dynamically-with-jquery)
 

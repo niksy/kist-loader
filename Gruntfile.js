@@ -5,34 +5,40 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		meta: {
-			banner: '<%= pkg.name %> <%= pkg.version %> - <%= pkg.description %> | Author: <%= pkg.author %>, <%= grunt.template.today("yyyy") %> | License: <%= pkg.license %>',
-			defaultBanner: '/* <%= meta.banner %> */\n',
-			unstrippedBanner: '/*! <%= meta.banner %> */\n'
+			banner: '/*! <%= pkg.name %> <%= pkg.version %> - <%= pkg.description %> | Author: <%= pkg.author %>, <%= grunt.template.today("yyyy") %> | License: <%= pkg.license %> */\n'
 		},
 
 		concat: {
-			options: {
-				stripBanners: true,
-				banner: '<%= meta.defaultBanner %>'
-			},
 			dist: {
+				options: {
+					stripBanners: true,
+					banner: '<%= meta.banner %>'
+				},
 				files: {
-					'dist/plugins/gmaps.js': ['src/plugins/gmaps.js'],
-					'dist/plugins/alias.js': ['src/plugins/alias.js'],
 					'dist/kist-loader.js': ['src/kist-loader.js']
+				}
+			},
+			distAddons: {
+				files: {
+					'dist/addons/gmaps.js': ['src/addons/gmaps.js'],
+					'dist/addons/alias.js': ['src/addons/alias.js']
 				}
 			}
 		},
 
 		uglify: {
-			options: {
-			banner: '<%= meta.unstrippedBanner %>'
-			},
 			dist: {
+				options: {
+					banner: '<%= meta.banner %>'
+				},
 				files: {
-					'dist/plugins/gmaps.min.js': ['src/plugins/gmaps.js'],
-					'dist/plugins/alias.min.js': ['src/plugins/alias.js'],
 					'dist/kist-loader.min.js': ['src/kist-loader.js']
+				}
+			},
+			distAddons: {
+				files: {
+					'dist/addons/gmaps.min.js': ['src/addons/gmaps.js'],
+					'dist/addons/alias.min.js': ['src/addons/alias.js']
 				}
 			}
 		},
@@ -58,8 +64,7 @@ module.exports = function (grunt) {
 				},
 				files: {
 					src: [
-						'src/**/*.js',
-						'!src/**/gmaps.js'
+						'src/**/*.js'
 					]
 				}
 			}
@@ -85,7 +90,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks( 'grunt-bump' );
 
 	grunt.registerTask( 'stylecheck', ['jshint:main', 'jscs:main'] );
-	grunt.registerTask( 'default', ['concat:dist', 'uglify:dist'] );
+	grunt.registerTask( 'default', ['concat', 'uglify'] );
 	grunt.registerTask( 'releasePatch', ['bump-only:patch', 'default', 'bump-commit'] );
 	grunt.registerTask( 'releaseMinor', ['bump-only:minor', 'default', 'bump-commit'] );
 	grunt.registerTask( 'releaseMajor', ['bump-only:major', 'default', 'bump-commit'] );

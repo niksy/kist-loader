@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Callbacks image</title>
+	<title>Callbacks image, alias</title>
 </head>
 <body>
 
@@ -31,7 +31,7 @@
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
-				.load(['assets/img/test-01.jpg'], function ( img ) {
+				.loadImage(['assets/img/test-01.jpg'], function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
 					$(img[0]).appendTo('.sandbox');
@@ -42,7 +42,7 @@
 		$('.array-done-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/test-01.jpg'],
 					success: function ( img ) {
 						console.log( 'Done' );
@@ -56,7 +56,7 @@
 		$('.array-done-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/test-01.jpg'],
 					success: function ( img ) {
 						console.log( 'Done' );
@@ -79,7 +79,7 @@
 		$('.array-done-recache').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/test-01.jpg'],
 					cache: false
 				}, function ( img ) {
@@ -93,7 +93,7 @@
 		$('.array-done-recache-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/test-01.jpg'],
 					cache: false,
 					success: function ( img ) {
@@ -108,7 +108,7 @@
 		$('.array-done-recache-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/test-01.jpg'],
 					cache: false,
 					success: function ( img ) {
@@ -132,7 +132,7 @@
 		$('.array-fail').on('click', function () {
 
 			$.kist.loader
-				.load(['assets/img/x.jpg'], function ( img ) {
+				.loadImage(['assets/img/x.jpg'], function ( img ) {
 					console.log( 'Done' );
 					console.log( arguments );
 					$(img[0]).appendTo('.sandbox');
@@ -147,7 +147,7 @@
 		$('.array-fail-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/x.jpg'],
 					success: function ( img ) {
 						console.log( 'Done' );
@@ -165,7 +165,7 @@
 		$('.array-fail-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/x.jpg'],
 					success: function ( img ) {
 						console.log( 'Done' );
@@ -187,7 +187,7 @@
 		$('.array-fail-recache').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/x.jpg'],
 					cache: false
 				}, function ( img ) {
@@ -205,7 +205,7 @@
 		$('.array-fail-recache-optcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/x.jpg'],
 					cache: false,
 					success: function ( img ) {
@@ -224,7 +224,7 @@
 		$('.array-fail-recache-optargdfdcb').on('click', function () {
 
 			$.kist.loader
-				.load({
+				.loadImage({
 					url: ['assets/img/x.jpg'],
 					cache: false,
 					success: function ( img ) {
