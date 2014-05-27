@@ -11,25 +11,25 @@ Convenient Google Maps loader, with some [starting code](https://gist.github.com
 Type: `Object`  
 *Required*
 
-###### `apiKey`
+###### apiKey
 
 Type: `String`
 
 Your project’s API key
 
-###### `plugins`
+###### plugins
 
 Type: `String|Array`
 
 Google Maps plugins such as Infobox.
 
-###### `language`
+###### language
 
 Type: `String`
 
 Language for Google Maps UI.
 
-###### `libraries`
+###### libraries
 
 Type: `String`
 
