@@ -5,20 +5,27 @@
 		extension: /\.(\w+)(?:\?.+)?$/i,
 		explicitType: /^(\w+?)!/i
 	};
-	var async = {
-		js: null,
-		fjs: document.getElementsByTagName('script')[0]
-	};
 	var dom = {
 		head: $('head')
 	};
 
-	function argsResolve ( args ) {
+	/**
+	 * Normalize single asset result to array element to keep it consistent
+	 * with passed arguments from multiple asset results
+	 *
+	 * @param  {Array} args
+	 *
+	 * @return {Array}
+	 */
+	function argsNormalize ( args ) {
 
 		var arr = [];
+		args = Array.prototype.slice.call(args);
 
+		// If first result is not array, we push every result from
+		// passed arguments as new array element
 		if ( $.type(args[0]) !== 'array' ) {
-			arr.push( Array.prototype.slice.call(args) );
+			arr.push( args );
 		} else {
 			arr = args;
 		}
@@ -27,6 +34,13 @@
 
 	}
 
+	/**
+	 * Construct array of results for elements like string
+	 *
+	 * @param  {String|Array} url
+	 *
+	 * @return {Array}
+	 */
 	function constructArray ( url ) {
 		if ( typeof(url) === 'string' ) {
 			return url.split();
@@ -34,6 +48,13 @@
 		return url;
 	}
 
+	/**
+	 * Construct options object
+	 *
+	 * @param  {String|Array|Object} options
+	 *
+	 * @return {Object}
+	 */
 	function constructOptions ( options ) {
 
 		var obj = {};
@@ -56,9 +77,16 @@
 
 	}
 
-	function assetType ( url ) {
+	/**
+	 * Get asset type by URL
+	 *
+	 * @param  {String} url
+	 *
+	 * @return {String}
+	 */
+	function getAssetType ( url ) {
 
-		var type;
+		var type = 'js';
 
 		if ( url.match(regex.explicitType) ) {
 			type = url.match(regex.explicitType)[1];
@@ -67,21 +95,51 @@
 			if ( /jpe?g|png|gif|webp/i.test(type) ) {
 				type = 'img';
 			}
-		} else {
-			type = 'js';
 		}
 
 		return type;
 
 	}
 
+	/**
+	 * Force asset type for URL
+	 *
+	 * @param {String} type
+	 * @param {String} url
+	 *
+	 * @return {String}
+	 */
+	function setAssetType ( type, url ) {
+
+		url = cleanAssetUrl(url);
+		url = type + '!' + url;
+
+		return url;
+
+	}
+
+	/**
+	 * Clean asset URL from prefixes which force asset type
+	 *
+	 * @param  {String} url
+	 *
+	 * @return {String}
+	 */
 	function cleanAssetUrl ( url ) {
 		return url.replace(regex.explicitType,'');
 	}
 
-	function resolveAsset ( url, options ) {
+	/**
+	 * Load asset based on URL
+	 *
+	 * @param  {String} url
+	 * @param  {Object} options
+	 *
+	 * @return {Promise}
+	 */
+	function loadAsset ( url, options ) {
 
-		var type = assetType( url );
+		var type = getAssetType( url );
 		url = cleanAssetUrl( url );
 
 		switch ( type ) {
@@ -97,46 +155,58 @@
 
 	}
 
-	function forceAssetType ( type, assets ) {
-
-		var arr = [];
-		assets = constructArray(assets);
-
-		$.each( assets, function ( index, url ) {
-			url = cleanAssetUrl(url);
-			arr.push( type + '!' + url );
-		});
-
-		return arr;
-
-	}
-
-	function bundleDfds ( assets, options ) {
+	/**
+	 * Bundle all deferreds to array
+	 *
+	 * @param  {Array} assets
+	 * @param  {Object} options
+	 *
+	 * @return {Array}
+	 */
+	function bundledDfds ( assets, options ) {
 
 		var dfds = [];
 		assets = constructArray(assets);
 
 		$.each( assets, function ( index, url ) {
-			dfds.push( resolveAsset( url, options ) );
+			dfds.push( loadAsset( url, options ) );
 		});
 
 		return dfds;
 
 	}
 
+	/**
+	 * Resolve alias
+	 *
+	 * @return {Promise}
+	 */
 	function aliasResolve () {
 
 		var options = Array.prototype.slice.call(arguments);
+
+		// Remove first argument (asset type) from options array
 		var type    = options.shift();
 
-		options[0]     = constructOptions.call(this, options[0]);
-		options[0].url = forceAssetType(type, options[0].url);
+		options[0] = constructOptions.call(this, options[0]);
+
+		$.each( options[0].url, function ( index, url ) {
+			options[0].url[index] = setAssetType(type, url);
+		});
 
 		return this.load.apply(this, options);
 
 	}
 
-	function loadAjaxAsset ( url, options, cb ) {
+	/**
+	 * Generic AJAX asset load
+	 *
+	 * @param  {String}   url
+	 * @param  {Object}   options
+	 *
+	 * @return {Promise}
+	 */
+	function loadAjaxAsset ( url, options ) {
 
 		if ( assetsCache[ url ] && options.cache ) {
 			return assetsCache[ url ].dfd.promise();
@@ -149,13 +219,20 @@
 					url: url,
 					cache: true
 				}, options)
-			)
-			.done(cb);
+			);
 
 		return assetsCache[ url ].dfd.promise();
 
 	}
 
+	/**
+	 * Load style asset
+	 *
+	 * @param  {String} url
+	 * @param  {Object} options
+	 *
+	 * @return {Promise}
+	 */
 	function loadStyleAsset ( url, options ) {
 
 		if ( assetsCache[ url ] && options.cache ) {
@@ -171,7 +248,7 @@
 
 		url = ( !options.cache ? url + '?_=' + $.now() : cleanUrl );
 
-		return loadAjaxAsset(url, $.extend({}, { dataType: 'text' }), function ( data, textStatus, xhr ) {
+		return loadAjaxAsset(url, $.extend({}, { dataType: 'text' })).done(function ( data, textStatus, xhr ) {
 
 			linkData.url = cleanUrl;
 			if ( !options.cache ) {
@@ -202,17 +279,23 @@
 						.add(
 							$('<style type="text/css">' + data + '</style>')
 								.data(linkData)
-
 						);
 			}
 
-			style
-				.appendTo(dom.head);
+			style.appendTo(dom.head);
 
 		});
 
 	}
 
+	/**
+	 * Load image asset
+	 *
+	 * @param  {String} url
+	 * @param  {Object} options
+	 *
+	 * @return {Promise}
+	 */
 	function loadImageAsset ( url, options ) {
 
 		if ( assetsCache[ url ] && options.cache ) {
@@ -237,6 +320,13 @@
 
 	}
 
+	/**
+	 * Load async (CORS) asset
+	 *
+	 * @param  {String} url
+	 *
+	 * @return {Promise}
+	 */
 	function loadAsyncAsset ( url ) {
 
 		if ( assetsCache[ url ] ) {
@@ -246,6 +336,9 @@
 		assetsCache[ url ] = {};
 		assetsCache[ url ].dfd = $.Deferred();
 
+		var id;
+		var js;
+
 		if ( /connect\.facebook/.test(url) ) {
 			id = 'facebook-jssdk';
 		} else if ( /platform\.twitter/.test(url) ) {
@@ -254,20 +347,17 @@
 			id = 'gplus-sdk';
 		}
 
-		if ( !async.fjs || !async.fjs.parentNode ) {
-			async.fjs = document.getElementsByTagName('script')[0];
-		}
-		if ( document.getElementById(id) ) {
-			return;
-		}
-		async.js = document.createElement('script');
-		async.js.src = url;
-		if ( id ) {
-			async.js.id = id;
-		}
-		async.fjs.parentNode.insertBefore(async.js, async.fjs);
+		if ( $('#' + id).length === 0 ) {
 
-		assetsCache[ url ].dfd.resolve();
+			js = $('<script />', {
+				src: url,
+				id: id
+			});
+			js.appendTo(dom.head);
+
+		}
+
+		assetsCache[ url ].dfd.resolve(js[0], 'success');
 
 		return assetsCache[ url ].dfd.promise();
 
@@ -284,14 +374,15 @@
 			options = constructOptions.call(this, options);
 
 			$.when
-				.apply( window, bundleDfds( options.url, { cache: options.cache } ) )
+				.apply( window, bundledDfds( options.url, { cache: options.cache } ) )
 				.done(function () {
-					dfd.resolve.apply( window, argsResolve(arguments) );
+					var args = argsNormalize(arguments);
+					dfd.resolve.apply( window, args );
 					if ( cb ) {
-						cb.apply( window, argsResolve(arguments) );
+						cb.apply( window, args );
 					}
 					if ( options.success ) {
-						options.success.apply( window, argsResolve(arguments) );
+						options.success.apply( window, args );
 					}
 				})
 				.fail(function () {
