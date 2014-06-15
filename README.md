@@ -12,7 +12,7 @@ bower install niksy/kist-loader
 
 ### `.load(options, [success])`
 
-Returns: `Deferred`
+Returns: `Promise`
 
 Load assets.
 
