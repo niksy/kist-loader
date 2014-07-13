@@ -199,6 +199,32 @@
 	}
 
 	/**
+	 * Helper function for deferreds resolving
+	 *
+	 * @param  {Object}   params
+	 *
+	 * @return {Promise}
+	 */
+	function dfdResolve ( params ) {
+
+		if ( assetsCache[params.url] && params.cache ) {
+			return assetsCache[params.url].dfd.promise();
+		}
+
+		if ( params.dfd ) {
+			assetsCache[params.url] = {};
+			assetsCache[params.url].dfd = $.Deferred();
+		}
+
+		if ( params.promise ) {
+			params.cb();
+			return assetsCache[params.url].dfd.promise();
+		}
+		return params.cb();
+
+	}
+
+	/**
 	 * Generic AJAX asset load
 	 *
 	 * @param  {String}   url
@@ -208,20 +234,24 @@
 	 */
 	function loadAjaxAsset ( url, options ) {
 
-		if ( assetsCache[url] && options.cache ) {
-			return assetsCache[url].dfd.promise();
-		}
+		return dfdResolve({
+			url: url,
+			cache: options.cache,
+			dfd: false,
+			promise: true,
+			cb: function () {
 
-		assetsCache[url] = {};
-		assetsCache[url].dfd =
-			$.ajax(
-				$.extend({
-					url: url,
-					cache: true
-				}, options)
-			);
+				assetsCache[url] = {};
+				assetsCache[url].dfd =
+					$.ajax(
+						$.extend({
+							url: url,
+							cache: true
+						}, options)
+					);
 
-		return assetsCache[url].dfd.promise();
+			}
+		});
 
 	}
 
@@ -235,60 +265,66 @@
 	 */
 	function loadStyleAsset ( url, options ) {
 
-		if ( assetsCache[url] && options.cache ) {
-			return assetsCache[url].dfd.promise();
-		}
+		return dfdResolve({
+			url: url,
+			cache: options.cache,
+			dfd: false,
+			promise: false,
+			cb: function () {
 
-		var cleanUrl = url;
-		var linkData = {};
-		var styles   = $('link, style');
-		var style;
+				var cleanUrl = url;
+				var linkData = {};
+				var styles   = $('link, style');
+				var style;
 
-		var existingStyles = styles.filter(function () {
-			return $(this).data('url') === cleanUrl;
-		});
-		var existingCachedStyles = styles.filter(function () {
-			return $(this).data('cachedUrl');
-		});
+				var existingStyles = styles.filter(function () {
+					return $(this).data('url') === cleanUrl;
+				});
+				var existingCachedStyles = styles.filter(function () {
+					return $(this).data('cachedUrl');
+				});
 
-		url = ( !options.cache ? url + '?_=' + $.now() : cleanUrl );
+				url = ( !options.cache ? url + '?_=' + $.now() : cleanUrl );
 
-		return loadAjaxAsset(url, $.extend({}, { dataType: 'text' })).done(function ( data, textStatus, xhr ) {
+				return loadAjaxAsset(url, $.extend({}, { dataType: 'text' })).done(function ( data, textStatus, xhr ) {
 
-			linkData.url = cleanUrl;
-			if ( !options.cache ) {
-				linkData.cachedUrl = url;
+					linkData.url = cleanUrl;
+					if ( !options.cache ) {
+						linkData.cachedUrl = url;
+					}
+
+					if (
+						existingStyles.length !== 0 &&
+						!options.cache
+					) {
+						existingStyles.remove();
+					}
+
+					if (
+						existingCachedStyles.length !== 0 &&
+						options.cache
+					) {
+						existingCachedStyles.remove();
+					}
+
+					style =
+						$('<link rel="stylesheet" type="text/css" href="' + url + '" />')
+							.data(linkData);
+
+					if ( xhr.getResponseHeader('Content-Type') === 'text/plain' ) {
+						style =
+							style
+								.add(
+									$('<style type="text/css">' + data + '</style>')
+										.data(linkData)
+								);
+					}
+
+					style.appendTo(dom.head);
+
+				});
+
 			}
-
-			if (
-				existingStyles.length !== 0 &&
-				!options.cache
-			) {
-				existingStyles.remove();
-			}
-
-			if (
-				existingCachedStyles.length !== 0 &&
-				options.cache
-			) {
-				existingCachedStyles.remove();
-			}
-
-			style =
-				$('<link rel="stylesheet" type="text/css" href="' + url + '" />')
-					.data(linkData);
-
-			if ( xhr.getResponseHeader('Content-Type') === 'text/plain' ) {
-				style =
-					style
-						.add(
-							$('<style type="text/css">' + data + '</style>')
-								.data(linkData)
-						);
-			}
-
-			style.appendTo(dom.head);
-
 		});
 
 	}
@@ -303,25 +339,26 @@
 	 */
 	function loadImageAsset ( url, options ) {
 
-		if ( assetsCache[url] && options.cache ) {
-			return assetsCache[url].dfd.promise();
-		}
+		return dfdResolve({
+			url: url,
+			cache: options.cache,
+			dfd: true,
+			promise: true,
+			cb: function () {
 
-		assetsCache[url] = {};
-		assetsCache[url].dfd = $.Deferred();
+				var img = new Image();
 
-		var img = new Image();
+				assetsCache[url].dfd.always(function () {
+					img.onload = img.onerror = img.onabort = null;
+				});
 
-		assetsCache[url].dfd.always(function () {
-			img.onload = img.onerror = img.onabort = null;
+				img.onload  = $.proxy( assetsCache[url].dfd.resolve, window, img, 'success' );
+				img.onerror = img.onabort = $.proxy( assetsCache[url].dfd.reject, window, img, 'error' );
+
+				img.src = ( !options.cache ? url + '?_=' + $.now() : url );
+
+			}
 		});
-
-		img.onload  = $.proxy( assetsCache[url].dfd.resolve, window, img, 'success' );
-		img.onerror = img.onabort = $.proxy( assetsCache[url].dfd.reject, window, img, 'error' );
-
-		img.src = ( !options.cache ? url + '?_=' + $.now() : url );
-
-		return assetsCache[url].dfd.promise();
 
 	}
 
@@ -334,37 +371,38 @@
 	 */
 	function loadAsyncAsset ( url ) {
 
-		if ( assetsCache[url] ) {
-			return assetsCache[url].dfd.promise();
-		}
+		return dfdResolve({
+			url: url,
+			cache: loader.defaults.cache,
+			dfd: true,
+			promise: true,
+			cb: function () {
 
-		assetsCache[url] = {};
-		assetsCache[url].dfd = $.Deferred();
+				var id;
+				var js;
 
-		var id;
-		var js;
+				if ( /connect\.facebook/.test(url) ) {
+					id = 'facebook-jssdk';
+				} else if ( /platform\.twitter/.test(url) ) {
+					id = 'twitter-wjs';
+				} else if ( /apis\.google/.test(url) ) {
+					id = 'gplus-sdk';
+				}
 
-		if ( /connect\.facebook/.test(url) ) {
-			id = 'facebook-jssdk';
-		} else if ( /platform\.twitter/.test(url) ) {
-			id = 'twitter-wjs';
-		} else if ( /apis\.google/.test(url) ) {
-			id = 'gplus-sdk';
-		}
+				if ( $('#' + id).length === 0 ) {
 
-		if ( $('#' + id).length === 0 ) {
+					js = $('<script />', {
+						src: url,
+						id: id
+					});
+					js.appendTo(dom.head);
 
-			js = $('<script />', {
-				src: url,
-				id: id
-			});
-			js.appendTo(dom.head);
+				}
 
-		}
+				assetsCache[url].dfd.resolve(js[0], 'success', window);
 
-		assetsCache[url].dfd.resolve(js[0], 'success');
-
-		return assetsCache[url].dfd.promise();
+			}
+		});
 
 	}
 
