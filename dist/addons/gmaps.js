@@ -1,8 +1,7 @@
 ;(function ( $, window, loader, undefined ) {
 
 	var now = $.now();
-	var firstDfd;
-	var secondDfd;
+	var gmapsDfd;
 
 	/**
 	 * Google Maps loader
@@ -20,12 +19,12 @@
 	/* jshint maxparams:false */
 	function loadGoogleMaps ( version, apiKey, language, libraries, sensor ) {
 
-		if (firstDfd) {
-			return firstDfd.promise();
+		if (gmapsDfd) {
+			return gmapsDfd.promise();
 		}
 
 		// Create a Deferred Object
-		firstDfd = $.Deferred();
+		gmapsDfd = $.Deferred();
 
 		// Global callback name
 		var callbackName = 'loadGoogleMaps_' + (now++);
@@ -40,7 +39,7 @@
 
 		// Declare a resolve function, pass google.maps for the done functions
 		function resolve () {
-			firstDfd.resolve(window.google && window.google.maps ? window.google.maps : false);
+			gmapsDfd.resolve(window.google && window.google.maps ? window.google.maps : false);
 		}
 
 		// If google.maps exists, then Google Maps API was probably loaded with the <script> tag
@@ -83,7 +82,7 @@
 
 		}
 
-		return firstDfd.promise();
+		return gmapsDfd.promise();
 
 	}
 
@@ -91,31 +90,27 @@
 
 		loadGmaps: function ( options, cb ) {
 
-			if (secondDfd) {
-				return secondDfd.promise();
-			}
-
-			secondDfd = $.Deferred();
+			var dfd = $.Deferred();
 			options = options || {};
 
 			function successCb () {
-				secondDfd.resolve.apply( window, arguments );
+				dfd.resolve.apply(window, arguments);
 				if ( cb ) {
 					cb.apply(window, arguments);
 				}
 				if ( options.success ) {
-					options.success.apply( window, arguments );
+					options.success.apply(window, arguments);
 				}
 			}
 
 			function errorCb () {
-				secondDfd.reject.apply( window, arguments );
+				dfd.reject.apply(window, arguments);
 				if ( options.error ) {
-					options.error.apply( window, arguments );
+					options.error.apply(window, arguments);
 				}
 			}
 
-			loadGoogleMaps( options.mapsVersion, options.apiKey, options.language, options.libraries, options.sensor )
+			loadGoogleMaps(options.mapsVersion, options.apiKey, options.language, options.libraries, options.sensor)
 				.done(function () {
 					var args = Array.prototype.slice.call(arguments);
 					if ( options.plugins ) {
@@ -132,7 +127,7 @@
 				})
 				.fail(errorCb);
 
-			return secondDfd.promise();
+			return dfd.promise();
 
 		}
 

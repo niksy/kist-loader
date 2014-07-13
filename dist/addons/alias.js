@@ -1,9 +1,9 @@
 ;(function ( $, loader, undefined ) {
 
-	$.cachedGetScript = $.multiCachedGetScript = $.proxy( loader.loadScript, loader );
-	$.loadImage       = $.proxy( loader.loadImage, loader );
-	$.asyncLoad       = $.proxy( loader.loadAsync, loader );
-	$.gmapsLoader     = $.proxy( loader.loadGmaps, loader );
+	$.cachedGetScript = $.multiCachedGetScript = loader.loadScript;
+	$.loadImage       = loader.loadImage;
+	$.asyncLoad       = loader.loadAsync;
+	$.gmapsLoader     = loader.loadGmaps;
 	$.multiGetScript  = function ( url ) {
 		return loader.loadScript({
 			url: url,
