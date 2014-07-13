@@ -21,6 +21,21 @@
 	<button type="button" class="string-img-recache">Load image file explicitly, no cache (param as string)</button>
 	<button type="button" class="array-img-recache">Load image file explicitly, no cache (param as array)</button>
 
+	<button type="button" class="string-txt">Load text (txt) file explicitly (param as string)</button>
+	<button type="button" class="array-txt">Load text (txt) file explicitly (param as array)</button>
+	<button type="button" class="string-txt-recache">Load text (txt) file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-txt-recache">Load text (txt) file explicitly, no cache (param as array)</button>
+
+	<button type="button" class="string-text">Load text (text) file explicitly (param as string)</button>
+	<button type="button" class="array-text">Load text (text) file explicitly (param as array)</button>
+	<button type="button" class="string-text-recache">Load text (text) file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-text-recache">Load text (text) file explicitly, no cache (param as array)</button>
+
+	<button type="button" class="string-template">Load text (template) file explicitly (param as string)</button>
+	<button type="button" class="array-template">Load text (template) file explicitly (param as array)</button>
+	<button type="button" class="string-template-recache">Load text (template) file explicitly, no cache (param as string)</button>
+	<button type="button" class="array-template-recache">Load text (template) file explicitly, no cache (param as array)</button>
+
 	<div class="sandbox"></div>
 
 	<script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -223,6 +238,216 @@
 					$(img[0]).appendTo('.sandbox');
 				})
 				.fail(function ( img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-txt').on('click', function () {
+
+			$.kist.loader
+				.load('txt!assets/text/test-03')
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-txt').on('click', function () {
+
+			$.kist.loader
+				.load(['txt!assets/text/test-03'])
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-txt-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'txt!assets/text/test-03',
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-txt-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['txt!assets/text/test-03'],
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-text').on('click', function () {
+
+			$.kist.loader
+				.load('text!assets/text/test-03')
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-text').on('click', function () {
+
+			$.kist.loader
+				.load(['text!assets/text/test-03'])
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-text-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'text!assets/text/test-03',
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-text-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['text!assets/text/test-03'],
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-template').on('click', function () {
+
+			$.kist.loader
+				.load('template!assets/text/test-03')
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-template').on('click', function () {
+
+			$.kist.loader
+				.load(['template!assets/text/test-03'])
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-template-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: 'template!assets/text/test-03',
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-template-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['template!assets/text/test-03'],
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});

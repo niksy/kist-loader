@@ -149,6 +149,10 @@
 				return loadStyleAsset(url, options);
 			case 'img':
 				return loadImageAsset(url, options);
+			case 'txt':
+			case 'text':
+			case 'template':
+				return loadTextAsset(url, options);
 			case 'async':
 				return loadAsyncAsset(url);
 		}
@@ -362,6 +366,20 @@
 
 	}
 
+	function loadTextAsset ( url, options ) {
+
+		return dfdResolve({
+			url: url,
+			cache: options.cache,
+			dfd: false,
+			promise: false,
+			cb: function () {
+				return loadAjaxAsset(url, $.extend({}, options, { dataType: 'text' }));
+			}
+		});
+
+	}
+
 	/**
 	 * Load async (CORS) asset
 	 *
@@ -440,6 +458,7 @@
 		loadScript: $.proxy(aliasResolve, null, 'js'),
 		loadStyle : $.proxy(aliasResolve, null, 'css'),
 		loadImage : $.proxy(aliasResolve, null, 'img'),
+		loadText  : $.proxy(aliasResolve, null, 'txt'),
 		loadAsync : $.proxy(aliasResolve, null, 'async'),
 
 		defaults: {

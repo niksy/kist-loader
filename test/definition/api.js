@@ -103,6 +103,41 @@ $.kist.loader
         }
     });
 
+// Text assets
+$.kist.loader
+    .load('x.txt')
+    .done(function ( txt ) {
+        console.log( 'Asset x.txt loaded.' );
+    })
+    .fail(function ( txt ) {
+        console.log( 'Asset x.txt loading failed.' );
+    });
+
+$.kist.loader
+    .load(['x.txt','y.txt'])
+    .done(function ( txt1, txt2 ) {
+        console.log( 'Assets x.txt and y.txt loaded.' );
+    })
+    .fail(function ( txt1, txt2 ) {
+        console.log( 'Assets x.txt and y.txt loading failed.' );
+    });
+
+$.kist.loader
+    .load('x.txt', function ( txt ) {
+        console.log( 'Asset x.txt loaded.' );
+    });
+
+$.kist.loader
+    .load({
+        url: 'x.txt',
+        success: function ( txt ) {
+            console.log( 'Asset x.txt loaded.' );
+        },
+        error: function ( txt ) {
+            console.log( 'Asset x.txt loading failed.' );
+        }
+    });
+
 // Async (CORS) assets
 $.kist.loader
     .load('async!//connect.facebook.net/en_US/all.js#xfbml=1');
@@ -127,6 +162,11 @@ $.kist.loader
 $.kist.loader
     .loadImage(['z.jpg'], function ( img ) {
         console.log( 'Asset z.jpg loaded.' );
+    });
+
+$.kist.loader
+    .loadText(['z.txt'], function ( txt ) {
+        console.log( 'Asset z.txt loaded.' );
     });
 
 $.kist.loader

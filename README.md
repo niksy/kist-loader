@@ -73,6 +73,10 @@ Loads style (CSS) assets.
 
 Loads image assets.
 
+#### `.loadText(options, [success])`
+
+Loads text assets.
+
 #### `.loadAsync(options, [success])`
 
 Loads assets "async way" (e.g. 3rd party SDKs such as Facebook or Google+ SDK).
@@ -193,6 +197,44 @@ $.kist.loader
 	});
 ```
 
+### Text assets
+
+```js
+$.kist.loader
+	.load('x.txt')
+	.done(function ( txt ) {
+		console.log( 'Asset x.txt loaded.' );
+	})
+	.fail(function ( txt ) {
+		console.log( 'Asset x.txt loading failed.' );
+	});
+
+$.kist.loader
+	.load(['x.txt','y.txt'])
+	.done(function ( txt1, txt2 ) {
+		console.log( 'Assets x.txt and y.txt loaded.' );
+	})
+	.fail(function ( txt1, txt2 ) {
+		console.log( 'Assets x.txt and y.txt loading failed.' );
+	});
+
+$.kist.loader
+	.load('x.txt', function ( txt ) {
+		console.log( 'Asset x.txt loaded.' );
+	});
+
+$.kist.loader
+	.load({
+		url: 'x.txt',
+		success: function ( txt ) {
+			console.log( 'Asset x.txt loaded.' );
+		},
+		error: function ( txt ) {
+			console.log( 'Asset x.txt loading failed.' );
+		}
+	});
+```
+
 ### Async (CORS) assets
 
 ```js
@@ -225,6 +267,11 @@ $.kist.loader
 $.kist.loader
 	.loadImage(['z.jpg'], function ( img ) {
 		console.log( 'Asset z.jpg loaded.' );
+	});
+
+$.kist.loader
+	.loadText(['z.txt'], function ( txt ) {
+		console.log( 'Asset z.txt loaded.' );
 	});
 
 $.kist.loader

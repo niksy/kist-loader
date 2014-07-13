@@ -8,18 +8,24 @@
 
 	<button type="button" class="array-done-01">Load JS+CSS files (param as array)</button>
 	<button type="button" class="array-done-02">Load JS+CSS+image files (param as array)</button>
+	<button type="button" class="array-done-03">Load JS+CSS+image+text files (param as array)</button>
 	<button type="button" class="array-done-01-recache">Load JS+CSS files, no cache (param as array)</button>
 	<button type="button" class="array-done-02-recache">Load JS+CSS+image files, no cache (param as array)</button>
+	<button type="button" class="array-done-03-recache">Load JS+CSS+image+text files, no cache (param as array)</button>
 
 	<button type="button" class="array-fail-01">Load non-existent JS+CSS files (param as array)</button>
 	<button type="button" class="array-fail-02">Load non-existent JS+CSS+image files (param as array)</button>
+	<button type="button" class="array-fail-03">Load non-existent JS+CSS+image+text files (param as array)</button>
 	<button type="button" class="array-fail-01-recache">Load non-existent JS+CSS files, no cache (param as array)</button>
 	<button type="button" class="array-fail-02-recache">Load non-existent JS+CSS+image files, no cache (param as array)</button>
+	<button type="button" class="array-fail-03-recache">Load non-existent JS+CSS+image+text files, no cache (param as array)</button>
 
 	<button type="button" class="array-single-fail-01">Load JS+CSS files, one is non-existent (param as array)</button>
 	<button type="button" class="array-single-fail-02">Load JS+CSS+image files, one is non-existent (param as array)</button>
+	<button type="button" class="array-single-fail-03">Load JS+CSS+image+text files, one is non-existent (param as array)</button>
 	<button type="button" class="array-single-fail-01-recache">Load JS+CSS files, one is non-existent, no cache (param as array)</button>
 	<button type="button" class="array-single-fail-02-recache">Load JS+CSS+image files, one is non-existent, no cache (param as array)</button>
+	<button type="button" class="array-single-fail-03-recache">Load JS+CSS+image+text files, one is non-existent, no cache (param as array)</button>
 
 	<div class="sandbox"></div>
 
@@ -52,6 +58,23 @@
 					$(img[0]).appendTo('.sandbox');
 				})
 				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-03').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/test-01.css','assets/img/test-01.jpg','assets/text/test-01.txt'])
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
@@ -95,6 +118,26 @@
 
 		});
 
+		$('.array-done-03-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/js/test-01.js','assets/css/test-01.css','assets/img/test-01.jpg','assets/text/test-01.txt'],
+					cache: false
+				})
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
 		$('.array-fail-01').on('click', function () {
 
 			$.kist.loader
@@ -120,6 +163,23 @@
 					$(img[0]).appendTo('.sandbox');
 				})
 				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-03').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/x.js','assets/css/x.css','assets/img/x.jpg','assets/text/x.txt'])
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
@@ -163,6 +223,26 @@
 
 		});
 
+		$('.array-fail-03-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/js/x.js','assets/css/x.css','assets/img/x.jpg','assets/text/x.txt'],
+					cache: false
+				})
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
 		$('.array-single-fail-01').on('click', function () {
 
 			$.kist.loader
@@ -188,6 +268,23 @@
 					$(img[0]).appendTo('.sandbox');
 				})
 				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail-03').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/js/test-01.js','assets/css/test-01.css','assets/img/x.jpg','assets/text/test-02.txt'])
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
@@ -225,6 +322,26 @@
 					$(img[0]).appendTo('.sandbox');
 				})
 				.fail(function ( js, css, img ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail-03-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/js/test-01.js','assets/css/test-01.css','assets/img/x.jpg','assets/text/test-02.txt'],
+					cache: false
+				})
+				.done(function ( js, css, img, txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$(img[0]).appendTo('.sandbox');
+					$('.sandbox').append(txt[0]);
+				})
+				.fail(function ( js, css, img, txt ) {
 					console.log( 'Fail' );
 					console.log( arguments );
 				});
