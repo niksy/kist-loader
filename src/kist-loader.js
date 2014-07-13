@@ -25,7 +25,7 @@
 		// If first result is not array, we push every result from
 		// passed arguments as new array element
 		if ( $.type(args[0]) !== 'array' ) {
-			arr.push( args );
+			arr.push(args);
 		} else {
 			arr = args;
 		}
@@ -73,7 +73,7 @@
 
 		obj.url = constructArray(obj.url);
 
-		return $.extend({}, this.defaults, obj);
+		return $.extend({}, loader.defaults, obj);
 
 	}
 
@@ -139,18 +139,18 @@
 	 */
 	function loadAsset ( url, options ) {
 
-		var type = getAssetType( url );
-		url = cleanAssetUrl( url );
+		var type = getAssetType(url);
+		url = cleanAssetUrl(url);
 
 		switch ( type ) {
 			case 'js':
-				return loadAjaxAsset( url, $.extend({}, { dataType: 'script' }, options) );
+				return loadAjaxAsset(url, $.extend({}, { dataType: 'script' }, options));
 			case 'css':
-				return loadStyleAsset( url, options );
+				return loadStyleAsset(url, options);
 			case 'img':
-				return loadImageAsset( url, options );
+				return loadImageAsset(url, options);
 			case 'async':
-				return loadAsyncAsset( url );
+				return loadAsyncAsset(url);
 		}
 
 	}
@@ -169,7 +169,7 @@
 		assets = constructArray(assets);
 
 		$.each( assets, function ( index, url ) {
-			dfds.push( loadAsset( url, options ) );
+			dfds.push(loadAsset(url, options));
 		});
 
 		return dfds;
@@ -186,15 +186,15 @@
 		var options = Array.prototype.slice.call(arguments);
 
 		// Remove first argument (asset type) from options array
-		var type    = options.shift();
+		var type = options.shift();
 
-		options[0] = constructOptions.call(this, options[0]);
+		options[0] = constructOptions(options[0]);
 
 		$.each( options[0].url, function ( index, url ) {
 			options[0].url[index] = setAssetType(type, url);
 		});
 
-		return this.load.apply(this, options);
+		return loader.load.apply(null, options);
 
 	}
 
@@ -208,12 +208,12 @@
 	 */
 	function loadAjaxAsset ( url, options ) {
 
-		if ( assetsCache[ url ] && options.cache ) {
-			return assetsCache[ url ].dfd.promise();
+		if ( assetsCache[url] && options.cache ) {
+			return assetsCache[url].dfd.promise();
 		}
 
-		assetsCache[ url ] = {};
-		assetsCache[ url ].dfd =
+		assetsCache[url] = {};
+		assetsCache[url].dfd =
 			$.ajax(
 				$.extend({
 					url: url,
@@ -221,7 +221,7 @@
 				}, options)
 			);
 
-		return assetsCache[ url ].dfd.promise();
+		return assetsCache[url].dfd.promise();
 
 	}
 
@@ -235,16 +235,21 @@
 	 */
 	function loadStyleAsset ( url, options ) {
 
-		if ( assetsCache[ url ] && options.cache ) {
-			return assetsCache[ url ].dfd.promise();
+		if ( assetsCache[url] && options.cache ) {
+			return assetsCache[url].dfd.promise();
 		}
 
 		var cleanUrl = url;
 		var linkData = {};
+		var styles   = $('link, style');
 		var style;
-		var styles               = $('link, style');
-		var existingStyles       = styles.filter(function () { return $(this).data('url') === cleanUrl; });
-		var existingCachedStyles = styles.filter(function () { return $(this).data('cachedUrl'); });
+
+		var existingStyles = styles.filter(function () {
+			return $(this).data('url') === cleanUrl;
+		});
+		var existingCachedStyles = styles.filter(function () {
+			return $(this).data('cachedUrl');
+		});
 
 		url = ( !options.cache ? url + '?_=' + $.now() : cleanUrl );
 
@@ -298,25 +303,25 @@
 	 */
 	function loadImageAsset ( url, options ) {
 
-		if ( assetsCache[ url ] && options.cache ) {
-			return assetsCache[ url ].dfd.promise();
+		if ( assetsCache[url] && options.cache ) {
+			return assetsCache[url].dfd.promise();
 		}
 
-		assetsCache[ url ] = {};
-		assetsCache[ url ].dfd = $.Deferred();
+		assetsCache[url] = {};
+		assetsCache[url].dfd = $.Deferred();
 
 		var img = new Image();
 
-		assetsCache[ url ].dfd.always(function () {
+		assetsCache[url].dfd.always(function () {
 			img.onload = img.onerror = img.onabort = null;
 		});
 
-		img.onload  = $.proxy( assetsCache[ url ].dfd.resolve, window, img, 'success' );
-		img.onerror = img.onabort = $.proxy( assetsCache[ url ].dfd.reject, window, img, 'error' );
+		img.onload  = $.proxy( assetsCache[url].dfd.resolve, window, img, 'success' );
+		img.onerror = img.onabort = $.proxy( assetsCache[url].dfd.reject, window, img, 'error' );
 
 		img.src = ( !options.cache ? url + '?_=' + $.now() : url );
 
-		return assetsCache[ url ].dfd.promise();
+		return assetsCache[url].dfd.promise();
 
 	}
 
@@ -329,12 +334,12 @@
 	 */
 	function loadAsyncAsset ( url ) {
 
-		if ( assetsCache[ url ] ) {
-			return assetsCache[ url ].dfd.promise();
+		if ( assetsCache[url] ) {
+			return assetsCache[url].dfd.promise();
 		}
 
-		assetsCache[ url ] = {};
-		assetsCache[ url ].dfd = $.Deferred();
+		assetsCache[url] = {};
+		assetsCache[url].dfd = $.Deferred();
 
 		var id;
 		var js;
@@ -357,38 +362,36 @@
 
 		}
 
-		assetsCache[ url ].dfd.resolve(js[0], 'success');
+		assetsCache[url].dfd.resolve(js[0], 'success');
 
-		return assetsCache[ url ].dfd.promise();
+		return assetsCache[url].dfd.promise();
 
 	}
 
-	function Loader () {}
-
-	$.extend(Loader.prototype, {
+	var loader = {
 
 		load: function ( options, cb ) {
 
 			var dfd = $.Deferred();
 
-			options = constructOptions.call(this, options);
+			options = constructOptions(options);
 
 			$.when
-				.apply( window, bundledDfds( options.url, { cache: options.cache } ) )
+				.apply(window, bundledDfds(options.url, { cache: options.cache } ))
 				.done(function () {
 					var args = argsNormalize(arguments);
-					dfd.resolve.apply( window, args );
+					dfd.resolve.apply(window, args);
 					if ( cb ) {
-						cb.apply( window, args );
+						cb.apply(window, args);
 					}
 					if ( options.success ) {
-						options.success.apply( window, args );
+						options.success.apply(window, args);
 					}
 				})
 				.fail(function () {
-					dfd.reject.apply( window, arguments );
+					dfd.reject.apply(window, arguments);
 					if ( options.error ) {
-						options.error.apply( window, arguments );
+						options.error.apply(window, arguments);
 					}
 				});
 
@@ -396,18 +399,18 @@
 
 		},
 
-		loadScript: $.proxy( aliasResolve, null, 'js' ),
-		loadStyle : $.proxy( aliasResolve, null, 'css' ),
-		loadImage : $.proxy( aliasResolve, null, 'img' ),
-		loadAsync : $.proxy( aliasResolve, null, 'async' ),
+		loadScript: $.proxy(aliasResolve, null, 'js'),
+		loadStyle : $.proxy(aliasResolve, null, 'css'),
+		loadImage : $.proxy(aliasResolve, null, 'img'),
+		loadAsync : $.proxy(aliasResolve, null, 'async'),
 
 		defaults: {
 			cache: true
 		}
 
-	});
+	};
 
 	$.kist = $.kist || {};
-	$.kist.loader = new Loader();
+	$.kist.loader = loader;
 
 })( jQuery, window, document );
