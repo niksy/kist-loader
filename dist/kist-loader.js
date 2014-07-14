@@ -1,4 +1,4 @@
-/*! kist-loader 0.4.0 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-loader 0.4.1 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	var assetsCache = {};
@@ -153,7 +153,7 @@
 			case 'txt':
 			case 'text':
 			case 'template':
-				return loadTextAsset(url, options);
+				return loadAjaxAsset(url, $.extend({}, { dataType: 'text' }, options));
 			case 'async':
 				return loadAsyncAsset(url);
 		}
@@ -362,20 +362,6 @@
 
 				img.src = ( !options.cache ? url + '?_=' + $.now() : url );
 
-			}
-		});
-
-	}
-
-	function loadTextAsset ( url, options ) {
-
-		return dfdResolve({
-			url: url,
-			cache: options.cache,
-			dfd: false,
-			promise: false,
-			cb: function () {
-				return loadAjaxAsset(url, $.extend({}, options, { dataType: 'text' }));
 			}
 		});
 
