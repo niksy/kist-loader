@@ -152,7 +152,7 @@
 			case 'txt':
 			case 'text':
 			case 'template':
-				return loadTextAsset(url, options);
+				return loadAjaxAsset(url, $.extend({}, { dataType: 'text' }, options));
 			case 'async':
 				return loadAsyncAsset(url);
 		}
@@ -361,20 +361,6 @@
 
 				img.src = ( !options.cache ? url + '?_=' + $.now() : url );
 
-			}
-		});
-
-	}
-
-	function loadTextAsset ( url, options ) {
-
-		return dfdResolve({
-			url: url,
-			cache: options.cache,
-			dfd: false,
-			promise: false,
-			cb: function () {
-				return loadAjaxAsset(url, $.extend({}, options, { dataType: 'text' }));
 			}
 		});
 
