@@ -1,6 +1,7 @@
-/*! kist-loader 0.4.1 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-loader 0.4.2 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
+	var asyncCache = [];
 	var assetsCache = {};
 	var regex = {
 		extension: /\.(\w+)(?:\?.+)?$/i,
@@ -394,13 +395,15 @@
 					id = 'gplus-sdk';
 				}
 
-				if ( $('#' + id).length === 0 ) {
+				if ( $('#' + id).length === 0 && $.inArray(url, asyncCache) === -1 ) {
 
 					js = $('<script />', {
 						src: url,
 						id: id
 					});
 					js.appendTo(dom.head);
+
+					asyncCache.push(url);
 
 				}
 
