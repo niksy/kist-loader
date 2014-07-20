@@ -1,5 +1,6 @@
 ;(function ( $, window, document, undefined ) {
 
+	var asyncCache = [];
 	var assetsCache = {};
 	var regex = {
 		extension: /\.(\w+)(?:\?.+)?$/i,
@@ -393,13 +394,15 @@
 					id = 'gplus-sdk';
 				}
 
-				if ( $('#' + id).length === 0 ) {
+				if ( $('#' + id).length === 0 && $.inArray(url, asyncCache) === -1 ) {
 
 					js = $('<script />', {
 						src: url,
 						id: id
 					});
 					js.appendTo(dom.head);
+
+					asyncCache.push(url);
 
 				}
 
