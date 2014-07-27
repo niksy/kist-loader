@@ -23,10 +23,19 @@
 		var arr = [];
 		args = Array.prototype.slice.call(args);
 
-		// If first result is not array, we push every result from
-		// passed arguments as new array element
+		/**
+		 * If first result is not array, we push every result from
+		 * passed arguments as new array element.
+		 */
 		if ( $.type(args[0]) !== 'array' ) {
-			arr.push(args);
+
+			// If first result is undefined, we transform it to empty string
+			if ( $.type(args[0]) === 'undefined' ) {
+				args[0] = '';
+			} else {
+				arr.push(args);
+			}
+
 		} else {
 			arr = args;
 		}
@@ -58,21 +67,29 @@
 	 */
 	function constructOptions ( options ) {
 
-		var obj = {};
+		var obj = {
+			url: ['']
+		};
 
 		switch ( $.type(options) ) {
 			case 'array':
-				obj.url = options;
+				obj.url = obj.url.concat(options);
 				break;
 			case 'string':
-				obj.url = options;
+				obj.url = constructArray(options);
 				break;
 			case 'object':
 				$.extend(obj, options);
+				obj.url = constructArray(obj.url);
 				break;
 		}
 
-		obj.url = constructArray(obj.url);
+		// Remove empty items from array if they are not the only ones inside array
+		$.each(obj.url, function ( index, item ) {
+			if ( item === '' && obj.url.length !== 1 ) {
+				obj.url.splice(index, 1);
+			}
+		});
 
 		return $.extend({}, loader.defaults, obj);
 
@@ -96,6 +113,8 @@
 			if ( /jpe?g|png|gif|webp/i.test(type) ) {
 				type = 'img';
 			}
+		} else if ( url === '' ) {
+			type = '';
 		}
 
 		return type;
@@ -413,37 +432,44 @@
 
 	}
 
+	/**
+	 * @param  {String|Array|Object} options
+	 * @param  {Function} cb
+	 *
+	 * @return {Promise}
+	 */
+	function load ( options, cb ) {
+
+		var dfd = $.Deferred();
+
+		options = constructOptions(options);
+
+		$.when
+			.apply(window, bundledDfds(options.url, { cache: options.cache } ))
+			.done(function () {
+				var args = argsNormalize(arguments);
+				dfd.resolve.apply(window, args);
+				if ( cb ) {
+					cb.apply(window, args);
+				}
+				if ( options.success ) {
+					options.success.apply(window, args);
+				}
+			})
+			.fail(function () {
+				dfd.reject.apply(window, arguments);
+				if ( options.error ) {
+					options.error.apply(window, arguments);
+				}
+			});
+
+		return dfd.promise();
+
+	}
+
 	var loader = {
 
-		load: function ( options, cb ) {
-
-			var dfd = $.Deferred();
-
-			options = constructOptions(options);
-
-			$.when
-				.apply(window, bundledDfds(options.url, { cache: options.cache } ))
-				.done(function () {
-					var args = argsNormalize(arguments);
-					dfd.resolve.apply(window, args);
-					if ( cb ) {
-						cb.apply(window, args);
-					}
-					if ( options.success ) {
-						options.success.apply(window, args);
-					}
-				})
-				.fail(function () {
-					dfd.reject.apply(window, arguments);
-					if ( options.error ) {
-						options.error.apply(window, arguments);
-					}
-				});
-
-			return dfd.promise();
-
-		},
-
+		load      : load,
 		loadScript: $.proxy(aliasResolve, null, 'js'),
 		loadStyle : $.proxy(aliasResolve, null, 'css'),
 		loadImage : $.proxy(aliasResolve, null, 'img'),

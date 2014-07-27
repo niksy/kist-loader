@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Empty values</title>
+</head>
+<body>
+
+	<button type="button" class="empty-arguments">Empty arguments</button>
+	<button type="button" class="empty-string">Empty string</button>
+	<button type="button" class="empty-array">Empty array</button>
+	<button type="button" class="empty-object">Empty object</button>
+
+	<div class="sandbox"></div>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../src/kist-loader.js"></script>
+	<script>
+
+		$('.empty-arguments').on('click', function () {
+
+			$.kist.loader
+				.load()
+				.done(function () {
+					console.log( arguments );
+				})
+				.fail(function () {
+					console.error( arguments );
+				});
+
+		});
+
+		$('.empty-string').on('click', function () {
+
+			$.kist.loader
+				.load('')
+				.done(function () {
+					console.log( arguments );
+				})
+				.fail(function () {
+					console.error( arguments );
+				});
+
+		});
+
+		$('.empty-array').on('click', function () {
+
+			$.kist.loader
+				.load([])
+				.done(function () {
+					console.log( arguments );
+				})
+				.fail(function () {
+					console.error( arguments );
+				});
+
+		});
+
+		$('.empty-object').on('click', function () {
+
+			$.kist.loader
+				.load({})
+				.done(function () {
+					console.log( arguments );
+				})
+				.fail(function () {
+					console.error( arguments );
+				});
+
+		});
+
+	</script>
+
+</body>
+</html>
