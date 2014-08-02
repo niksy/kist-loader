@@ -17,12 +17,6 @@ module.exports = function (grunt) {
 				files: {
 					'dist/kist-loader.js': ['src/kist-loader.js']
 				}
-			},
-			distAddons: {
-				files: {
-					'dist/addons/gmaps.js': ['src/addons/gmaps.js'],
-					'dist/addons/alias.js': ['src/addons/alias.js']
-				}
 			}
 		},
 
@@ -33,12 +27,6 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'dist/kist-loader.min.js': ['src/kist-loader.js']
-				}
-			},
-			distAddons: {
-				files: {
-					'dist/addons/gmaps.min.js': ['src/addons/gmaps.js'],
-					'dist/addons/alias.min.js': ['src/addons/alias.js']
 				}
 			}
 		},

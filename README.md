@@ -278,12 +278,11 @@ $.kist.loader
 	.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1']);
 ```
 
-## Addons
+## Plugins
 
-Certain method are not provided by default and they should be included as addons.
+Certain method are not provided by default and they should be included as plugins.
 
-* [Google Maps loader](docs/addons.md#google-maps-loader)
-* [Aliases](docs/addons.md#aliases)
+* [Google Maps loader](https://github.com/niksy/kist-loader-maps)
 
 ## Browser support
 
