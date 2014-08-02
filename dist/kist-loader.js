@@ -1,4 +1,4 @@
-/*! kist-loader 0.4.3 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-loader 0.4.4 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	var asyncCache = [];
