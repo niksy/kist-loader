@@ -11,6 +11,20 @@
 	};
 
 	/**
+	 * @param  {String} str
+	 *
+	 * @return {Integer}
+	 */
+	function hashCode ( str ) {
+		var hash = 0;
+		for (var i = 0, len = str.length; i < len; i++) {
+			hash = ((hash << 5) - hash) + str.charCodeAt(i);
+			hash = hash & hash;
+		}
+		return hash;
+	}
+
+	/**
 	 * Normalize single asset result to array element to keep it consistent
 	 * with passed arguments from multiple asset results
 	 *
@@ -389,6 +403,9 @@
 	/**
 	 * Load async (CORS) asset
 	 *
+	 * Caching of assets depends on browser options since we use standard DOM
+	 * insertion and don’t rely on jQuery to handle it.
+	 *
 	 * @param  {String} url
 	 *
 	 * @return {Promise}
@@ -411,21 +428,23 @@
 					id = 'twitter-wjs';
 				} else if ( /apis\.google/.test(url) ) {
 					id = 'gplus-sdk';
+				} else {
+					id = 'kistLoaderAsync_' + hashCode(url);
 				}
 
 				if ( $('#' + id).length === 0 && $.inArray(url, asyncCache) === -1 ) {
 
-					js = $('<script />', {
-						src: url,
-						id: id
-					});
-					js.appendTo(dom.head);
+					dom.asyncRef = dom.asyncRef || document.getElementsByTagName('script')[0];
+					js = document.createElement('script');
+					js.src = url;
+					js.id = id;
+					dom.asyncRef.parentNode.insertBefore(js, dom.asyncRef);
 
 					asyncCache.push(url);
 
 				}
 
-				assetsCache[url].dfd.resolve(js[0], 'success', window);
+				assetsCache[url].dfd.resolve(js, 'success', window);
 
 			}
 		});

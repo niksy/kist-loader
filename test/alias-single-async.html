@@ -31,12 +31,34 @@
 					console.log( arguments );
 				});
 
+			$.kist.loader
+				.loadAsync('assets/js/test-async.js')
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
 		});
 
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
 				.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1'])
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+			$.kist.loader
+				.loadAsync(['assets/js/test-async.js'])
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );

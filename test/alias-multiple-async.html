@@ -20,7 +20,7 @@
 		$('.array-done').on('click', function () {
 
 			$.kist.loader
-				.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1','https://apis.google.com/js/platform.js'])
+				.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1','https://apis.google.com/js/platform.js','async!assets/js/test-async.js'])
 				.done(function ( js ) {
 					console.log( 'Done' );
 					console.log( arguments );
