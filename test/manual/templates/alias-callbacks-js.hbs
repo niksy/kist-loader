@@ -1,0 +1,225 @@
+{{> top title="Callbacks JS, alias"}}
+
+	<button type="button" class="array-done">Load JS file, callback as argument (param as array)</button>
+	<button type="button" class="array-done-optcb">Load JS file, callback in object (param as array)</button>
+	<button type="button" class="array-done-optargdfdcb">Load JS file, callback in object, as argument and deferred (param as array)</button>
+
+	<button type="button" class="array-done-recache">Load JS file, no cache, callback as argument (param as array)</button>
+	<button type="button" class="array-done-recache-optcb">Load JS file, no cache, callback in object (param as array)</button>
+	<button type="button" class="array-done-recache-optargdfdcb">Load JS file, no cache, callback in object, as argument and deferred (param as array)</button>
+
+	<button type="button" class="array-fail">Load non-existent JS file, callback as argument (param as array)</button>
+	<button type="button" class="array-fail-optcb">Load non-existent JS file, callback in object (param as array)</button>
+	<button type="button" class="array-fail-optargdfdcb">Load non-existent JS file, callback in object and deferred (param as array)</button>
+
+	<button type="button" class="array-fail-recache">Load non-existent JS file, no cache, callback as argument (param as array)</button>
+	<button type="button" class="array-fail-recache-optcb">Load non-existent JS file, no cache, callback in object (param as array)</button>
+	<button type="button" class="array-fail-recache-optargdfdcb">Load non-existent JS file, no cache, callback in object and deferred (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script>
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.loadScript(['assets/js/test-01.js'], function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-optcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-done-optargdfdcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				}, function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-recache').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					cache: false
+				}, function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-recache-optcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					cache: false,
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-done-recache-optargdfdcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/test-01.js'],
+					cache: false,
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					}
+				}, function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail').on('click', function () {
+
+			$.kist.loader
+				.loadScript(['assets/js/x.js'], function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-optcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/x.js'],
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( js ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-fail-optargdfdcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/x.js'],
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( js ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/x.js'],
+					cache: false
+				}, function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-recache-optcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/x.js'],
+					cache: false,
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( js ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				});
+
+		});
+
+		$('.array-fail-recache-optargdfdcb').on('click', function () {
+
+			$.kist.loader
+				.loadScript({
+					url: ['assets/js/x.js'],
+					cache: false,
+					success: function ( js ) {
+						console.log( 'Done' );
+						console.log( arguments );
+					},
+					error: function ( js ) {
+						console.log( 'Fail' );
+						console.log( arguments );
+					}
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+{{> bottom}}

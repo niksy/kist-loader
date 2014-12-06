@@ -123,7 +123,7 @@ module.exports = function ( grunt ) {
 			options: {
 				logConcurrentOutput: true
 			},
-			test: ['watch:hbs','watch:browserify','connect:test:keepalive']
+			test: ['watch','connect:test:keepalive']
 		},
 
 		watch: {

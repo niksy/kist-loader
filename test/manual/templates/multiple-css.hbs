@@ -1,0 +1,116 @@
+{{> top title="Multiple CSS"}}
+
+	<button type="button" class="array-done">Load CSS files (param as array)</button>
+	<button type="button" class="array-fail">Load non-existent CSS files (param as array)</button>
+	<button type="button" class="array-single-fail">Load CSS files, one is non-existent (param as array)</button>
+
+	<button type="button" class="array-done-recache">Load CSS files, no cache (param as array)</button>
+	<button type="button" class="array-fail-recache">Load non-existent CSS files, no cache (param as array)</button>
+	<button type="button" class="array-single-fail-recache">Load CSS files, one is non-existent, no cache (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script>
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css','assets/css/test-02.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/x.css','assets/css/y.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail').on('click', function () {
+
+			$.kist.loader
+				.load(['assets/css/test-01.css','assets/css/y.css'])
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/test-01.css','assets/css/test-02.css'],
+					cache: false
+				})
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/x.css','assets/css/y.css'],
+					cache: false
+				})
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-single-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.load({
+					url: ['assets/css/test-01.css','assets/css/y.css'],
+					cache: false
+				})
+				.done(function ( css1, css2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( css1, css2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+{{> bottom}}

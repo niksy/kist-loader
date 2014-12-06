@@ -1,0 +1,159 @@
+{{> top title="Alias text, single"}}
+
+	<button type="button" class="string-done">Load text file (param as string)</button>
+	<button type="button" class="array-done">Load text file (param as array)</button>
+	<button type="button" class="string-done-recache">Load text file, no cache (param as string)</button>
+	<button type="button" class="array-done-recache">Load text file, no cache (param as array)</button>
+
+	<button type="button" class="string-fail">Load non-existent text file (param as string)</button>
+	<button type="button" class="array-fail">Load non-existent text file (param as array)</button>
+	<button type="button" class="string-fail-recache">Load non-existent text file, no cache (param as string)</button>
+	<button type="button" class="array-fail-recache">Load non-existent text file, no cache (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script>
+
+		$('.string-done').on('click', function () {
+
+			$.kist.loader
+				.loadText('assets/text/test-01.txt')
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.loadText(['assets/text/test-01.txt'])
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-done-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: 'assets/text/test-01.txt',
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: ['assets/text/test-01.txt'],
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-fail').on('click', function () {
+
+			$.kist.loader
+				.loadText('assets/text/x.txt')
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail').on('click', function () {
+
+			$.kist.loader
+				.loadText(['assets/text/x.txt'])
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.string-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: 'assets/text/x.txt',
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: ['assets/text/x.txt'],
+					cache: false
+				})
+				.done(function ( txt ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt[0]);
+				})
+				.fail(function ( txt ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+{{> bottom}}

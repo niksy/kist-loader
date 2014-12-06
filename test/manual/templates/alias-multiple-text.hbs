@@ -1,0 +1,85 @@
+{{> top title="Alias text, multiple"}}
+
+	<button type="button" class="array-done-multi">Load text files (param as array)</button>
+	<button type="button" class="array-done-multi-recache">Load text files, no cache (param as array)</button>
+
+	<button type="button" class="array-fail-multi">Load non-existent text files (param as array)</button>
+	<button type="button" class="array-fail-multi-recache">Load non-existent text files, no cache (param as array)</button>
+
+	<div class="sandbox"></div>
+
+	<script>
+
+		$('.array-done-multi').on('click', function () {
+
+			$.kist.loader
+				.loadText(['assets/text/test-01.txt','assets/text/test-02.txt'])
+				.done(function ( txt1, txt2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt1[0] + ', ' + txt2[0]);
+				})
+				.fail(function ( txt1, txt2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi').on('click', function () {
+
+			$.kist.loader
+				.loadText(['assets/text/x.txt','assets/text/y.txt'])
+				.done(function ( txt1, txt2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt1[0] + ', ' + txt2[0]);
+				})
+				.fail(function ( txt1, txt2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: ['assets/text/test-01.txt','assets/text/test-02.txt'],
+					cache: false
+				})
+				.done(function ( txt1, txt2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt1[0] + ', ' + txt2[0]);
+				})
+				.fail(function ( txt1, txt2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-fail-multi-recache').on('click', function () {
+
+			$.kist.loader
+				.loadText({
+					url: ['assets/text/x.txt','assets/text/y.txt'],
+					cache: false
+				})
+				.done(function ( txt1, txt2 ) {
+					console.log( 'Done' );
+					console.log( arguments );
+					$('.sandbox').text(txt1[0] + ', ' + txt2[0]);
+				})
+				.fail(function ( txt1, txt2 ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+{{> bottom}}

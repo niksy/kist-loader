@@ -1,0 +1,67 @@
+{{> top title="Alias async, single"}}
+
+	<button type="button" class="string-done">Load async (param as string)</button>
+	<button type="button" class="array-done">Load async (param as array)</button>
+
+	<div class="sandbox">
+		<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		<div class="g-plusone" data-annotation="inline" data-width="300"></div>
+	</div>
+
+	<script>
+
+		$('.string-done').on('click', function () {
+
+			$.kist.loader
+				.loadAsync('//connect.facebook.net/en_US/all.js#xfbml=1')
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+			$.kist.loader
+				.loadAsync('assets/js/test-async.js')
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+		$('.array-done').on('click', function () {
+
+			$.kist.loader
+				.loadAsync(['//connect.facebook.net/en_US/all.js#xfbml=1'])
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+			$.kist.loader
+				.loadAsync(['assets/js/test-async.js'])
+				.done(function ( js ) {
+					console.log( 'Done' );
+					console.log( arguments );
+				})
+				.fail(function ( js ) {
+					console.log( 'Fail' );
+					console.log( arguments );
+				});
+
+		});
+
+	</script>
+
+{{> bottom}}
