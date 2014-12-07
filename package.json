@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/niksy/kist-loader",
   "dependencies": {
+    "jquery": "^1.11.1",
     "hash-code": "^1.0.0",
     "toarray": "0.0.1"
   },
