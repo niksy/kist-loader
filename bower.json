@@ -22,5 +22,16 @@
   },
   "devDependencies": {
     "jquery": "1"
-  }
+  },
+  "homepage": "https://github.com/niksy/kist-loader",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "load",
+    "assets",
+    "ajax",
+    "browserify"
+  ]
 }
