@@ -1,6 +1,6 @@
 {
   "name": "kist-loader",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Simple asset loader.",
   "author": "Ivan Nikolić",
   "license": "MIT",
