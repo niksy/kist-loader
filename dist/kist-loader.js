@@ -1,4 +1,4 @@
-/*! kist-loader 0.4.5 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-loader 0.4.6 - Simple asset loader. | Author: Ivan Nikolić, 2014 | License: MIT */
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self);var o=f;o=o.jQuery||(o.jQuery={}),o=o.kist||(o.kist={}),o.loader=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var load = require(13);
 var aliasResolve = require(11);
@@ -35,7 +35,7 @@ module.exports = function(item) {
 var regex = {
 	extension: /\.(\w+)(?:\?.+)?$/i,
 	explicitType: /^(\w+?)!/i,
-	images: /\.(?:jpe?g|png|gif|webp)/i
+	images: /jpe?g|png|gif|webp/i
 };
 
 /**
@@ -64,7 +64,7 @@ function getType ( url ) {
 		type = url.match(regex.explicitType)[1];
 	} else if ( url.match(regex.extension) ) {
 		type = url.match(regex.extension)[1];
-		if ( images.test(type) ) {
+		if ( regex.images.test(type) ) {
 			type = 'img';
 		}
 	} else if ( url === '' ) {
