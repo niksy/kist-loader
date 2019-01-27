@@ -1,3 +1,15 @@
+![Deprecated project](https://img.shields.io/badge/status-deprecated-red.svg)
+
+**This project is deprecated.**
+
+Use separate packages for specific purpose:
+
+* [load-script-p](https://github.com/niksy/load-script-p)
+* [load-style-p](https://github.com/niksy/load-style-p)
+* [image-promise](https://github.com/bfred-it/image-promise)
+
+---
+
 # kist-loader
 
 Simple asset loader.
